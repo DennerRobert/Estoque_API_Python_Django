@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <center>
+            <h2>Lista de Produtos</h2>
+
+            {% if object_list %}
+                <table class="table striped" style="width: 50%; background-color: gray;">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Produto</th>
+                            <th>Preço</th>
+                            <th class="text-center">Estoque</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for object in object_list %}
+                            <tr>
+                                <td>{{ object.pk }}</td>
+                                <td>{{ object.produto }}</td>
+                                <td>{{ object.preco }}</td>
+                                <td class="text-center">{{ object.estoque }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="alert alert-warning">Sem itens na lista.</p>
+            {% endif %}
+        </center>
+            
+{% endblock content %}
