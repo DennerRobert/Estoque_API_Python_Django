@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'apps.core',
     'apps.produto',
     'apps.estoque_produtos',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [

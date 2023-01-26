@@ -1,0 +1,63 @@
+{% load static %}
+{% load bootstrap3 %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+{% block styles %}
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'clockpicker/css/bootstrap-clockpicker.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap-datepicker/dist/css/bootstrap-datepicker.standalone.css' %}"/>
+    <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+    integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
+    crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+    integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
+    crossorigin="anonymous"></script>
+    
+{% endblock %}
+<center>
+    <body style="background-color: rgb(91, 169, 221);">
+        <div class="box" style="background-color: #1e50da; width: 20%; min-width: 385px; min-height:400px; margin-top: 12%; height: 400px; border-radius: 10px;">
+            <center>
+                <div>
+                    <a href="/">
+                        <img style="margin-top: 5%;" src="/media/images/logo.png" alt="estoque">
+                    </a>
+                </div>
+            </center>
+            <form id="login-form" method="post" style="margin-top: 8%;">
+                {% csrf_token %}
+                <div class="col8" m-auto>
+                    <div style="color: white; text-align: left; margin-left: 5%; margin-top: 20px;">Usuário:</div>
+                    <input id="id_username" name="username" type="text" class="form-control"  style="width: 90%;">
+                </div>
+                <div class="col8" m-auto style="margin-top: 20px;">
+                    <div style="color: white; text-align: left; margin-left: 5%; margin-top: 20px;">Senha:</div> 
+                    <td><input id="id_password" name="password" type="password" class="form-control" style="width: 90%;"></td>
+                    <br>
+                    <center>
+                        <button type="submit" class="btn btn-outline-success text-center fs-5" style="margin-top: 20px; width: 203px; color:aliceblue">Login</button>
+                    </center>
+                </div>
+                {% if form.errors %}
+                    <p class="alert alert-danger">
+                        Seu usuário e/ou senha não batem.
+                    </p>
+                {% endif %}
+            </form>
+        </div>
+    </body>
+</center>
+</html>
