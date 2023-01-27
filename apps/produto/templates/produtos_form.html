@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap3 %}
+
+{% block title %}
+    Cadastro de Produtos
+{% endblock %}
+
+{% block content %}
+    <h2>Cadastro de Produtos</h2>
+    <form name="form_produtos" id="form_produtos" method="post">
+        {% csrf_token %}  
+        <div>
+            <div class="col-md-3">
+                <label for="">Nome do Produto</label>
+                {% bootstrap_field form.produto show_label=false %}
+            </div>
+            <div class="col-md-3">
+                <label for="">Preço do Produto R$</label>
+                {% bootstrap_field form.preco show_label=false %}
+            </div>
+            <div class="col-md-3">
+                <label for="">Quantidade</label>
+                {% bootstrap_field form.estoque show_label=false %}
+            </div>
+                <input type="submit" class="btn btn-primary" style="background-color: white; color: black;" value="Salvar">
+                <a href="{% url 'produto:produto_list' %}" class="btn btn-danger">Voltar</a><br>
+        </div>
+    </form>
+{% endblock content %}

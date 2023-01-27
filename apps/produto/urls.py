@@ -5,4 +5,5 @@ app_name = 'produto'
 
 urlpatterns = [
     path('', views.ProdutoListView.as_view(), name='produto_list'),
+    path('add/', views.ProdutoAddView.as_view(), name='produto_add'),
 ]
