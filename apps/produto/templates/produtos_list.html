@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block styles %}
+    <link href="starter-template.css">
+{% endblock %}
 
 {% block content %}
         <center>
@@ -12,6 +17,7 @@
                             <th>Produto</th>
                             <th>Preço</th>
                             <th class="text-center">Estoque</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -21,6 +27,12 @@
                                 <td>{{ object.produto }}</td>
                                 <td>{{ object.preco }}</td>
                                 <td class="text-center">{{ object.estoque }}</td>
+                                <td>
+                                    <a  class="btn btn-primary"
+                                        href="{% url 'produto:produto_edit' pk=object.pk%}">
+                                        <i class="fa fa-edit" aria-hidden="true">Editar Produto</i>
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>

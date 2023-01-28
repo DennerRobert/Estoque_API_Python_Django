@@ -5,6 +5,8 @@ from .models import Produtos
 from django.views.generic import UpdateView, View, FormView, ListView, CreateView, DetailView, DeleteView
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.utils.translation import gettext as _
+from django.urls import reverse_lazy
 
 
 class ProdutoListView(ListView):
@@ -32,4 +34,13 @@ class ProdutoAddView(CreateView):
         messages.success(self.request, self.success_message)  
         
         return redirect('produto:produto_add')
-    
+
+class ProdutoEditView(UpdateView):
+    model = Produtos
+    template_name = 'produtos_form.html'
+    form_class = ProdutosForm
+
+    def form_valid(self, form):
+        produto = form.save()
+        messages.success(self.request, 'Produto editado com sucesso!')
+        return redirect('produto:produto_list')
