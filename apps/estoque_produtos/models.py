@@ -17,7 +17,7 @@ class Estoque(TimeStempedModel):
         ordering = ('-created',)
 
     def __str__(self):
-        return str(self.pk)
+        return '{} - {}'.format(self.pk, self.created.strftime('%d-%m-%Y'))    
 
 class EstoqueItens(models.Model):
     estoque = models.ForeignKey(Estoque, on_delete=models.CASCADE)

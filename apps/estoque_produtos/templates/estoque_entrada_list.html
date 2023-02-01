@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap3 %}
+
+{% block title %}
+    Estoque Entrada
+{% endblock %}
+
+{% block content %}
+        <center>
+            <h2>Estoque Entrada
+                <span class="pull-right">
+                    <a href=""></a>
+                        <button type="button" class="btn btn-primary">
+                            <span class="fa fa-plus"></span>Adicionar
+                        </button>
+                </span>
+            </h2>
+
+            {% if object_list %}
+                <table class="table striped" style="width: 50%; background-color: gray;">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>NF</th>
+                            <th>Data</th>
+                            <th>Usuário</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for object in object_list %}
+                            <tr>
+                                <td><a href="">{{ object }}</a></td>
+                                <td>{{ object.nf }}</td>
+                                <td>{{ object.created|date:'d/m/Y' }}</td>
+                                <td>{{ object.funcionario.first_name }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="alert alert-warning">Sem itens na lista.</p>
+            {% endif %}
+        </center>
+            
+{% endblock content %}

@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'apps.core',
     'apps.produto',
     'apps.estoque_produtos',
+
+    # apps 3rst
     'bootstrap3',
 ]
 
