@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     # apps 3rst
     'bootstrap3',
+    'bootstrapform',
 ]
 
 MIDDLEWARE = [

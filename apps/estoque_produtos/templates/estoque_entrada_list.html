@@ -10,10 +10,7 @@
         <center>
             <h2>Estoque Entrada
                 <span class="pull-right">
-                    <a href=""></a>
-                        <button type="button" class="btn btn-primary">
-                            <span class="fa fa-plus"></span>Adicionar
-                        </button>
+                    <a href="{% url 'estoque_produtos:estoque_entrada_add' %}">adicionarrrr</a>
                 </span>
             </h2>
 
@@ -30,7 +27,7 @@
                     <tbody>
                         {% for object in object_list %}
                             <tr>
-                                <td><a href="">{{ object }}</a></td>
+                                <td><a href="{% url 'estoque_produtos:estoque_entrada_up' pk=object.pk %}" style="color:aliceblue">{{ object }}</a></td>
                                 <td>{{ object.nf }}</td>
                                 <td>{{ object.created|date:'d/m/Y' }}</td>
                                 <td>{{ object.funcionario.first_name }}</td>
