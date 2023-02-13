@@ -6,7 +6,8 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.forms import formset_factory
 from django.urls import reverse
-
+from ..produto.models import Produtos
+from django.http import JsonResponse
 
 class EstoqueEntradaList(ListView):
     raise_exception = True
@@ -53,8 +54,28 @@ class up_estoque(UpdateView):
         if estoque_itens_formset.is_valid():
             for estoque_item_form in estoque_itens_formset:
                 estoque_itens_formset = estoque_item_form.save(commit=False)
+                total_produto = Produtos.objects.filter(id = estoque_itens_formset.produto_id).first()
+                if total_produto:
+                    total_produto.estoque +=  estoque_itens_formset.quantidade
+                    total_produto.save()
+
                 estoque_itens_formset.save()
 
             return redirect('estoque_produtos:estoque_entrada_list')
         
         return redirect('estoque_produtos:estoque_entrada_list')
+    
+
+def get_saldo_ajax(request):
+    # retomar att saldo
+    produto_id = request.GET.get('produto')
+    quantidade = request.GET.get('quantidade')
+
+    if not quantidade:
+        quantidade = 0
+        
+    produto = Produtos.objects.filter(id = produto_id).first()
+    if produto:
+        saldo = int(produto.estoque) + int(quantidade)
+
+    return JsonResponse({'result': saldo})

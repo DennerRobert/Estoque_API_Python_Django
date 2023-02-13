@@ -52,14 +52,4 @@
 {% endblock content %}
 
 {% block scripts %}
-    <script type="text/javascript">
-        $(function() {
-            $('.estoque_itens_formset').formset({
-            prefix: '{{ estoque_itens_formset.prefix }}',
-            addText: 'Novo Procedimento',
-            deleteText: 'Remover',
-            addCssClass: 'btn-add',
-            deleteCssClass: 'btn-remove'})
-        })
-    </script>
 {% endblock scripts %}
