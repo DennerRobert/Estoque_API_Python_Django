@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap3 %}
+
+{% block title %}
+    Estoque Entrada
+{% endblock %}
+
+{% block content %}
+        <center>
+            <h2>Estoque Saída
+                <span class="pull-right">
+                    <a href="{% url 'estoque_produtos:estoque_saida' %}">adicionarrrr</a>
+                </span>
+            </h2>
+
+            {% if object_list %}
+                <table class="table striped" style="width: 50%; background-color: gray;">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>NF</th>
+                            <th>Data</th>
+                            <th>Usuário</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for object in object_list %}
+                            <tr>
+                                <td><a href="{% url 'estoque_produtos:estoque_entrada_up' pk=object.pk %}" style="color:aliceblue">{{ object }}</a></td>
+                                <td>{{ object.nf }}</td>
+                                <td>{{ object.created|date:'d/m/Y' }}</td>
+                                <td>{{ object.funcionario.first_name }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="alert alert-warning">Sem itens na lista.</p>
+            {% endif %}
+        </center>
+            
+{% endblock content %}
