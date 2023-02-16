@@ -21,32 +21,33 @@
     </style>
     {% block styles %}{% endblock%}
 </head>
-<body style="background-color: rgb(227, 233, 226);">
+<body style="background-color: rgb(91, 169, 221)">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="/">GERENCIAMENTO DE ESTOQUE</a>
-        
+        <!-- <a class="navbar-brand" href="/">GERENCIAMENTO DE ESTOQUE</a> -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'produto:produto_list' %}">Produtos</a>
+                    <a style="color:aliceblue" class="nav-link" href="{% url 'produto:produto_list' %}">Produtos</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="{% url 'produto:produto_add' %}">Adicionar Produto</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Retirar Produto</a>
+                <a style="color:aliceblue" class="nav-link" href="{% url 'produto:produto_add' %}">Adicionar Produto</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Estoque</a>
+                    <a style="color:aliceblue" class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Estoque</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown02">
                     <a class="dropdown-item" href="{% url 'estoque_produtos:estoque_entrada_list' %}">Entrada</a>
                     <a class="dropdown-item" href="{% url 'estoque_produtos:estoque_saida_list' %}">Saída</a>
                     </div>
                 </li>
             </ul>
-        
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a style="color:aliceblue" href="{% url 'logout' %}">Sair</a>
+                </li>
+            </ul>
         </div>
     </nav>
+
     {% block content %}
     {% endblock %}
     <script src="https://ajax.googleapis.com/ajax/libs//2.1.3/jquery.min.js" type="text/javascript"></script>

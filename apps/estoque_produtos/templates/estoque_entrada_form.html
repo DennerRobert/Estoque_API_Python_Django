@@ -5,20 +5,20 @@
 
 
 {% block title %}
-    Cadastro de LOTE
+    Estoque Entrada
 {% endblock %}
 
 {% block content %}
-    <h2>Cadastro de LOTE</h2>
+    <h2>Cadastro de Estoque Entrada</h2>
         <form action="" method="post">
             {% csrf_token %}  
             <div>
                 <div class="col-md-3">
-                    <label for="">funcionario</label>
+                    <label for="">Funcionário</label>
                     {% bootstrap_field form.funcionario show_label=false %}
                 </div>
                 <div class="col-md-3">
-                    <label for="">nf</label>
+                    <label for="">Nota Fiscal</label>
                     {% bootstrap_field form.nf show_label=false %}
                 </div>
                 <div class="col-md-3">

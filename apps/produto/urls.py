@@ -7,4 +7,5 @@ urlpatterns = [
     path('', views.ProdutoListView.as_view(), name='produto_list'),
     path('add/', views.ProdutoAddView.as_view(), name='produto_add'),
     path('<int:pk>/edit/', views.ProdutoEditView.as_view(), name='produto_edit'),
+    path('<int:pk>/del/', views.DispostivosDeleteAjax.as_view(), name='produto_delete'),
 ]

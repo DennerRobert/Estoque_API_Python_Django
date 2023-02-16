@@ -3,9 +3,17 @@
 
 {% block styles %}
     <link href="starter-template.css">
+    <style>
+        html, 
+        body {
+            height: 100%;
+            overflow-y: hidden;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
+    <div style="background-color: rgb(91, 169, 221); height: 100%;">
         <center>
             <h2>Lista de Produtos</h2>
 
@@ -13,24 +21,28 @@
                 <table class="table striped" style="width: 50%; background-color: gray;">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <!-- <th>#</th> -->
                             <th>Produto</th>
                             <th>Preço</th>
                             <th class="text-center">Estoque</th>
-                            <th>Ações</th>
+                            <th style="text-align: center;">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for object in object_list %}
-                            <tr>
-                                <td>{{ object.pk }}</td>
+                            <tr style="color:aliceblue">
+                                <!-- <td>{{ object.pk }}</td> -->
                                 <td>{{ object.produto }}</td>
                                 <td>{{ object.preco }}</td>
                                 <td class="text-center">{{ object.estoque }}</td>
-                                <td>
-                                    <a  class="btn btn-primary"
+                                <td style="text-align: center;">
+                                    <a  class="btn btn-info"
                                         href="{% url 'produto:produto_edit' pk=object.pk%}">
-                                        <i class="fa fa-edit" aria-hidden="true">Editar Produto</i>
+                                        <i class="fa fa-edit" aria-hidden="true"> Editar Produto</i>
+                                    </a>
+                                    <a  class="btn btn-info"
+                                        href="{% url 'produto:produto_delete' pk=object.pk%}">
+                                        <i class="fa fa-trash" aria-hidden="true"> Remover Produto</i>
                                     </a>
                                 </td>
                             </tr>
@@ -41,5 +53,5 @@
                 <p class="alert alert-warning">Sem itens na lista.</p>
             {% endif %}
         </center>
-            
+    </div>
 {% endblock content %}

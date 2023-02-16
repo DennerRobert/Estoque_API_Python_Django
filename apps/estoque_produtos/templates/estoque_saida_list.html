@@ -9,8 +9,8 @@
 {% block content %}
         <center>
             <h2>Estoque Saída
-                <span class="pull-right">
-                    <a href="{% url 'estoque_produtos:estoque_saida' %}">adicionarrrr</a>
+                <span>
+                    <a class="btn btn-light" href="{% url 'estoque_produtos:estoque_saida' %}">Adicionar</a>
                 </span>
             </h2>
 
@@ -26,11 +26,11 @@
                     </thead>
                     <tbody>
                         {% for object in object_list %}
-                            <tr>
+                            <tr style="color:aliceblue">
                                 <td><a href="{% url 'estoque_produtos:estoque_entrada_up' pk=object.pk %}" style="color:aliceblue">{{ object }}</a></td>
                                 <td>{{ object.nf }}</td>
                                 <td>{{ object.created|date:'d/m/Y' }}</td>
-                                <td>{{ object.funcionario.first_name }}</td>
+                                <td>{{ object.funcionario.username }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
