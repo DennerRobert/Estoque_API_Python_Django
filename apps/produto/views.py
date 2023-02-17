@@ -1,12 +1,17 @@
-from django.shortcuts import render
-
 from apps.produto.forms import ProdutosForm
 from .models import Produtos
-from django.views.generic import UpdateView, View, FormView, ListView, CreateView, DetailView, DeleteView
+from django.views.generic import UpdateView, View, ListView, CreateView
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.utils.translation import gettext as _
 from django.urls import reverse_lazy
+
+# api produto
+# from rest_framework.generics import CreateAPIView
+from .serializers import ProdutoSerializer
+from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework import status
 
 
 class ProdutoListView(ListView):
@@ -68,3 +73,45 @@ class DispostivosDeleteAjax(View):
             messages.success(self.request, self.error_message) 
 
         return redirect('produto:produto_list') 
+    
+
+class ProdutoViewSet(viewsets.ViewSet):
+
+    serializer_class = ProdutoSerializer
+
+    def list(self, request):
+        produtos = Produtos.objects.all()
+        serializer = ProdutoSerializer(produtos, many=True)
+        return Response(serializer.data)
+    
+
+    def create(self, request):
+        serializer = ProdutoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+    
+
+    def update(self, request, pk=None):
+        try:
+            produto = Produtos.objects.get(pk=pk)
+            serializer = ProdutoSerializer(produto, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                # return Response(serializer.data, status=status.HTTP_200_OK)
+                return Response(serializer.data,  status=201)
+            else:
+                # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializer.errors, status=400)
+            
+        except produto.DoesNotExist:
+            return Response(status=400)
+        
+
+    def destroy(self, request, pk, format=None):
+        produto = Produtos.objects.get(pk=pk)
+        produto.ativo = False
+        produto.save()
+        # return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=201)
