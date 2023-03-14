@@ -1,0 +1,29 @@
+version: '3.3'
+
+services:
+  # Postgres
+  db:
+    image: postgres:12
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "7999:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=estoque
+
+  web:
+    build: .
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000" 
+    volumes:
+      - .:/webapps
+    ports:
+      - "8000:8000"
+    links:
+      - db
+    depends_on:
+      - db
+      
+volumes:
+  postgres_data:
