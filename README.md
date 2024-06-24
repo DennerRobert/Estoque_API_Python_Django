@@ -1,2 +1,46 @@
 # Estoque_API_Python_Django
-Sistema de gerenciamento de estoque por api em python django.
+Sistema de gerenciamento de estoque por api em python/django.
+<!--
+dscricao do projeto
+print
+instruções / começando
+Pré-requisitos - Python 3.x
+ Instalação
+   Clone o repositório
+    Instale as dependências:
+
+ Executando
+   Execute o script principal  
+   python YoutubeMP3Downloader.py
+
+    Estrutura do Projeto
+    youtube-mp3-downloader/
+├── ffmpeg/                     # Pasta com executáveis do ffmpeg
+├── YoutubeMP3Downloader.py     # Script principal
+├── requirements.txt            # Dependências do projeto
+└── README.md                   # Documentação do projeto
+
+
+Funcionalidades
+Baixar áudio do YouTube: Insira a URL do vídeo do YouTube e baixe o áudio em formato MP3.
+Progresso do download: Visualize o progresso do download.
+Remover informações: Opção para remover as informações do download após a conclusão.
+Seleção de pasta de destino: Escolha onde salvar os áudios baixados.
+
+
+Contribuindo
+ontribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
+
+Fork o projeto
+Crie uma branch para sua feature (git checkout -b feature/nova-feature)
+Commit suas alterações (git commit -m 'Adiciona nova feature')
+Push para a branch (git push origin feature/nova-feature)
+Abra um Pull Request
+
+
+Licença
+Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
+.
+
+Feito com ❤️ por Guilherme Cugler
+-->
