@@ -1,7 +1,11 @@
 # Estoque_API_Python_Django
-Sistema de gerenciamento de estoque por api em python/django.
+Sistema de gerenciamento de estoque utilizando Python e Django, que facilita o acompanhamento de produtos e controle de inventário.
+
+
 <!--
-dscricao do projeto
+
+e geração de relatórios. A aplicação foi containerizada com Docker, garantindo fácil implantação e escalabilidade.
+
 print
 instruções / começando
 Pré-requisitos - Python 3.x
