@@ -7,7 +7,7 @@ Este projeto foi desenvolvido durante o período inicial da faculdade com o obje
 
 - Situação Atual:
 
-Atualmente, o projeto está em estado de pausa, aguardando atualizações e ajustes. A intenção é retomar seu desenvolvimento para finalizar e integrar melhorias.
+Atualmente, o projeto está em processo a ser retomado seu desenvolvimento para finalizar e integrar melhorias.
 
 
 - Próximos Passos:
