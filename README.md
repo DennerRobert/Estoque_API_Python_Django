@@ -1,5 +1,19 @@
 # Estoque_API_Python_Django
-Sistema de gerenciamento de estoque. (Descontinuado, iniciado v2 desse projeto)
+
+Resumo:
+Este projeto foi desenvolvido durante o período inicial da faculdade com o objetivo de praticar utilizando python, django, api rest, teste tdd e docker. Apesar de seu desenvolvimento inicial, o projeto foi interrompido devido a tempo apertado entre faculdade e trabalho.
+
+Situação Atual:
+Atualmente, o projeto está em estado de pausa, aguardando atualizações e ajustes. A intenção é retomar seu desenvolvimento para finalizar e integrar melhorias.
+
+Próximos Passos:
+Revisão e atualização do escopo original.
+Implementação de novas funcionalidades.
+Ajustes conforme novas necessidades identificadas.
+Testes, dockerização e finalização.
+
+Objetivo com a Retomada:
+Atualizar e concluir o projeto, aplicando conhecimentos e tecnologias adquiridas posteriormente.
 
 
 <!--
