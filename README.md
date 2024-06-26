@@ -1,5 +1,5 @@
 # Estoque_API_Python_Django
-Sistema de gerenciamento de estoque. (em construção...)
+Sistema de gerenciamento de estoque. (Descontinuado, iniciado v2 desse projeto)
 
 
 <!--
