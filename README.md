@@ -2,12 +2,12 @@
 
 - Resumo:
 
-Este projeto foi desenvolvido durante o período inicial da faculdade com o objetivo de praticar utilizando python, django, api rest, teste tdd e docker. Apesar de seu desenvolvimento inicial, o projeto foi interrompido devido ao curto tempo entre faculdade e trabalho.
+Este projeto foi desenvolvido durante o período inicial da faculdade com o objetivo de praticar utilizando python, django, api rest, teste tdd e docker. Apesar de seu desenvolvimento inicial, o projeto foi interrompido uns anos atrás devido ao curto tempo entre faculdade e trabalho.
 
 
 - Situação Atual:
 
-Atualmente, o projeto está em processo a ser retomado seu desenvolvimento para finalizar e integrar melhorias.
+Atualmente, o projeto está sendo retomado o desenvolvimento para finalizar e integrar melhorias.
 
 
 - Próximos Passos:
