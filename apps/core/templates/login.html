@@ -37,9 +37,9 @@
         }
         .dd {
             margin-top: 20px;
-            margin-left: 100px;
+            margin-left: 130px;
             position: relative;
-            width: 320px;
+            width: 220px;
             aspect-ratio: 352/200;
             overflow: hidden;
         }
@@ -62,6 +62,9 @@
                 background: #151618;
                 position: absolute;
             }
+        }
+        .title {
+            text-align: center;
         }
     </style>
     <style>
@@ -102,6 +105,9 @@
         <div class="dd">
             <div class="square"></div>
         </div>
+        <h1 class="title">
+            Product Stock
+        </h1>
         <form class="form" id="login-form" method="post">
             {% csrf_token %}
             <center>
@@ -117,6 +123,7 @@
             </div>
             </center>
             {% if form.errors %}
+                <br>
                 <p class="alert alert-danger">
                     Your username and/or password do not match.
                 </p>
