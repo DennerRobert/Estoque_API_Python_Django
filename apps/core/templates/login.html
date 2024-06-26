@@ -26,39 +26,102 @@
     integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
     crossorigin="anonymous"></script>
     
+    <style>
+        body {
+            background: #3760e9b2;
+            display: grid;
+            place-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .dd {
+            margin-top: 20px;
+            margin-left: 100px;
+            position: relative;
+            width: 320px;
+            aspect-ratio: 352/200;
+            overflow: hidden;
+        }
+        .square {
+            width: 42.857%;
+            aspect-ratio: 1;
+            background: white;
+            border-radius: 20px;
+            transform: rotate(45deg);
+            top: 11.5%;
+            position: absolute;
+            left: 6.571%;
+            z-index: 1;
+            display: grid;
+            place-items: center;
+            &:before {
+                content: "";
+                width: 50%;
+                aspect-ratio: 1;
+                background: #151618;
+                position: absolute;
+            }
+        }
+    </style>
+    <style>
+        .box {
+            background-color: #04050744; 
+            width: 20%; 
+            min-width: 385px; 
+            min-height:600px; 
+            height: 400px; 
+            border-radius: 10px;
+        }
+    </style>
+    <style>
+        .form{
+            margin-top: 8%;
+        }
+        .user {
+            font-weight: bold;
+            color: white; 
+            text-align: left; 
+            margin-left: 10%; 
+            margin-top: 20px;
+        }
+        .form-control{
+            width: 80%;
+        }
+        .password{
+            font-weight: bold;
+            color: white; 
+            text-align: left; 
+            margin-left: 10%; 
+            margin-top: 20px;
+        }
+    </style>
 {% endblock %}
-<center>
-    <body style="background-color: rgb(91, 169, 221);">
-        <div class="box" style="background-color: #1e50da; width: 20%; min-width: 385px; min-height:600px; margin-top: 9%; height: 400px; border-radius: 10px;">
-            <center>
-                <div>
-                    <a href="/">
-                        <img style="margin-top: 5%; width: 100%; height:'50%;" src="/media/images/logo.png" alt="estoque">
-                    </a>
-                </div>
-            </center>
-            <form id="login-form" method="post" style="margin-top: 8%;">
-                {% csrf_token %}
-                <div class="col8" m-auto>
-                    <div style="color: white; text-align: left; margin-left: 5%; margin-top: 20px;">Usuário:</div>
-                    <input id="id_username" name="username" type="text" class="form-control"  style="width: 90%;">
-                </div>
-                <div class="col8" m-auto style="margin-top: 20px;">
-                    <div style="color: white; text-align: left; margin-left: 5%; margin-top: 20px;">Senha:</div> 
-                    <td><input id="id_password" name="password" type="password" class="form-control" style="width: 90%;"></td>
-                    <br>
-                    <center>
-                        <button type="submit" class="btn btn-outline-success text-center fs-5" style="margin-top: 20px; width: 203px; color:aliceblue">Login</button>
-                        <a class="btn btn-outline-success text-center fs-5" style="margin-top: 20px; width: 203px; color:aliceblue" href="{% url 'cadastro' %}">Cadastro</a>
-                    </center>
-                </div>
-                {% if form.errors %}
-                    <p class="alert alert-danger">
-                        Seu usuário e/ou senha não batem.
-                    </p>
-                {% endif %}
-            </form>
+<body>
+    <div class="box">
+        <div class="dd">
+            <div class="square"></div>
         </div>
-    </body>
-</center>
+        <form class="form" id="login-form" method="post">
+            {% csrf_token %}
+            <center>
+            <div class="col8" m-auto>
+                <div class="user">Username</div>
+                <input id="id_username" name="username" type="text" class="form-control" placeholder="Insert your username">
+            </div>
+            <div class="col8" m-auto style="margin-top: 20px;">
+                <div class="password">Password</div> 
+                <td><input id="id_password" name="password" type="password" class="form-control" placeholder="***************"></td>
+                <button type="submit" class="btn btn-outline-primary text-center fs-5" style="margin-top: 40px; width: 203px; color:white; font-weight: bold;">Login</button>
+                <a class="btn btn-outline-primary text-center fs-5" style="margin-top: 10px; width: 203px; color:white; font-weight: bold;" href="{% url 'register' %}">Register</a>
+            </div>
+            </center>
+            {% if form.errors %}
+                <p class="alert alert-danger">
+                    Your username and/or password do not match.
+                </p>
+            {% endif %}
+        </form>
+    </div>
+</body>
 </html>

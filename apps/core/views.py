@@ -12,6 +12,6 @@ def index(request):
 
 class CadastroUsuarioView(generic.CreateView):
     model = User
-    template_name = 'cadastro.html'
+    template_name = 'register.html'
     form_class = CadastroUsuarioForm
     success_url = reverse_lazy('login')
