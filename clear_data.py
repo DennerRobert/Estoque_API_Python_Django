@@ -6,15 +6,20 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'estoque.settings')
 django.setup()
 
 from apps.estoque_produtos.models import EstoqueItens, Estoque
+from apps.produto.models import Produtos
 
 def clear_data():
     pass
-    # Excluir todos os produtosEstoque
-    # EstoqueSaidaList1 = EstoqueItens.objects.all().delete()
-    # EstoqueSaidaList1 = Estoque.objects.all().delete()
+    # Excluir todos os entradas / saídas
+    # clean = EstoqueItens.objects.all().delete()
+    # clean1 = Estoque.objects.all().delete()
+    # --------
+
+    # Excluir todos os Produtos
+    # clean = Produtos.objects.all().delete()
     # --------
     
-    # EstoqueSaidaList1 = Estoque.objects.all()
-    # print('-----', EstoqueSaidaList1)
+    # clean = Produtos.objects.all()
+    # print('-----', clean)
 if __name__ == '__main__':
     clear_data()
