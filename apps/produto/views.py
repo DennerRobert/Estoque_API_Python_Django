@@ -34,6 +34,7 @@ class ProdutoAddView(CreateView):
 
     def get_context_data(self, **kwargs):
         ctx = super(ProdutoAddView, self).get_context_data(**kwargs)
+        ctx['title'] = 'Product Registration'
         return ctx
 
     def form_valid(self, form):
@@ -53,6 +54,11 @@ class ProdutoEditView(UpdateView):
     template_name = 'produtos_form.html'
     form_class = ProdutosForm
 
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['title'] = 'Edit Product'
+        return ctx
+    
     def form_valid(self, form):
         produto = form.save()
         messages.success(self.request, 'Produto editado com sucesso!')
