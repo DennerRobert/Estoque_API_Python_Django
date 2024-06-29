@@ -2,39 +2,77 @@
 {% load bootstrap3 %}
 
 {% block styles %}
+    <style>
+        table {
+            border: 1px solid black;
+            border-collapse: collapse;
+            background-color: #f5f5f5;
+            width: 50%;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #ddd;
+        }
+
+        tr:hover {
+            background-color: #666262;
+            color: white;
+        }
+        .title{
+			background-color: white; 
+			border-radius: 10px;
+			color: black;
+            margin-top: 20px;
+            width: 50%;
+		}
+    </style>
 {% endblock %}
 
 {% block content %}
     <div>
         <center>
-            <h2>Lista de Produtos</h2>
-
+            <div class="title">
+                <h2>Product list</h2>
+            </div>
             {% if object_list %}
-                <table class="table striped" style="width: 50%; background-color: gray;">
+                <table>
                     <thead>
                         <tr>
-                            <!-- <th>#</th> -->
-                            <th>Produto</th>
-                            <th>Preço</th>
-                            <th class="text-center">Estoque</th>
-                            <th style="text-align: center;">Ações</th>
+                            <th>#</th>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th class="text-center">Stock</th>
+                            <th style="text-align: center;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for object in object_list %}
-                            <tr style="color:aliceblue">
-                                <!-- <td>{{ object.pk }}</td> -->
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
                                 <td>{{ object.produto }}</td>
                                 <td>{{ object.preco }}</td>
                                 <td class="text-center">{{ object.estoque }}</td>
                                 <td style="text-align: center;">
-                                    <a  class="btn btn-info"
+                                    <a  class="btn btn-outline-info text-center fs-5"
                                         href="{% url 'produto:produto_edit' pk=object.pk%}">
-                                        <i class="fa fa-edit" aria-hidden="true"> Editar Produto</i>
+                                        <i class="fa fa-edit" aria-hidden="true" style="font-weight: bold;"> Edit product</i>
                                     </a>
-                                    <a  class="btn btn-info"
+                                    <a class="btn btn-outline-info text-center fs-5"
                                         href="{% url 'produto:produto_delete' pk=object.pk%}">
-                                        <i class="fa fa-trash" aria-hidden="true"> Remover Produto</i>
+                                        <i class="fa fa-trash" aria-hidden="true" style="font-weight: bold;"> Remove product</i>
                                     </a>
                                 </td>
                             </tr>
@@ -42,7 +80,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <p class="alert alert-warning">Sem itens na lista.</p>
+                <p class="alert alert-warning">No items in the list.</p>
             {% endif %}
         </center>
     </div>
