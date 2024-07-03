@@ -20,6 +20,6 @@ def clear_data():
     # --------
     
     # clean = Produtos.objects.all()
-    # print('-----', clean)
+    # print('-----', clean) 
 if __name__ == '__main__':
     clear_data()
