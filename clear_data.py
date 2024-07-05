@@ -12,7 +12,7 @@ def clear_data():
     pass
     # Excluir todos os entradas / saídas
     # clean = EstoqueItens.objects.all().delete()
-    # clean1 = Estoque.objects.all().delete()
+    # clean_1 = Estoque.objects.all().delete()
     # --------
 
     # Excluir todos os Produtos
