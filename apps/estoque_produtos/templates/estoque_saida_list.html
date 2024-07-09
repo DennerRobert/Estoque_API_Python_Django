@@ -3,31 +3,73 @@
 {% load bootstrap3 %}
 
 {% block title %}
-    Estoque Entrada
+    Srock Exit
+{% endblock %}
+
+{% block styles %}
+	<style>
+		table {
+			border: 1px solid black;
+			border-collapse: collapse;
+			background-color: #f5f5f5;
+			width: 50%;
+			margin-bottom: 20px;
+			border-radius: 10px;
+		}
+
+		th, td {
+			padding: 8px;
+			text-align: left;
+			font-weight: bold;
+		}
+
+		th {
+			background-color: #333;
+			color: white;
+		}
+
+		tr:nth-child(even) {
+			background-color: #ddd;
+		}
+
+		tr:hover {
+			background-color: #666262;
+			color: white;
+		}
+		.title{
+			background-color: white; 
+			border-radius: 10px;
+			color: black;
+			margin-top: 20px;
+			width: 50%;
+		}
+	</style>
 {% endblock %}
 
 {% block content %}
         <center>
-            <h2>Estoque Saída
-                <span>
-                    <a class="btn btn-light" href="{% url 'estoque_produtos:estoque_saida' %}">Adicionar</a>
-                </span>
-            </h2>
+            <div class="title">
+                <h2>Stock Exit
+                    <span>
+                        <a style="margin-bottom: 4px;" class="btn btn-outline-primary text-center fs-5" href="{% url 'estoque_produtos:estoque_saida' %}"> + Add</a>
+                    </span>
+                </h2>
+            </div>
 
             {% if object_list %}
-                <table class="table striped" style="width: 50%; background-color: gray;">
+                <table>
                     <thead>
                         <tr>
                             <th>Item</th>
-                            <th>NF</th>
-                            <th>Data</th>
-                            <th>Usuário</th>
+                            <th>Invoice</th>
+                            <th>Date</th>
+                            <th>User</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for object in object_list %}
-                            <tr style="color:aliceblue">
-                                <td><a href="{% url 'estoque_produtos:estoque_entrada_up' pk=object.pk %}" style="color:aliceblue">{{ object }}</a></td>
+                            <tr>
+                                <td><a href="{% url 'estoque_produtos:estoque_entrada_up' pk=object.pk %}" >{{ object }}</a></td>
                                 <td>{{ object.nf }}</td>
                                 <td>{{ object.created|date:'d/m/Y' }}</td>
                                 <td>{{ object.funcionario.username }}</td>
@@ -36,7 +78,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <p class="alert alert-warning">Sem itens na lista.</p>
+                <p class="alert alert-warning">No items in the list.</p>
             {% endif %}
         </center>
             
