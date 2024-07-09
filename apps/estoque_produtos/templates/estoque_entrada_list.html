@@ -3,17 +3,31 @@
 {% load bootstrap3 %}
 
 {% block title %}
-    Estoque Entrada
+    Stock Entry
+{% endblock %}
+
+{% block styles %}
+	<style>
+		.title{
+			background-color: white; 
+			border-radius: 10px;
+			color: black;
+			margin-top: 20px;
+			width: 50%;
+		}
+	</style>
 {% endblock %}
 
 {% block content %}
         <center>
-            <h2>Estoque Entrada
-                <span>
-                    <a class="btn btn-light" href="{% url 'estoque_produtos:estoque_entrada_add' %}">Adicionar</a>
-                </span>
-            </h2>
-
+            <div class="title">
+                <h2>Stock Entry
+                    <span>
+                        <a style="margin-bottom: 4px;" class="btn btn-outline-primary text-center fs-5" href="{% url 'estoque_produtos:estoque_entrada_add' %}"> + Adicionar </a>
+                    </span>
+                </h2>
+            </div>
+            
             {% if object_list %}
                 <table class="table striped" style="width: 50%; background-color: gray;">
                     <thead>
@@ -36,7 +50,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <p class="alert alert-warning">Sem itens na lista.</p>
+                <p class="alert alert-warning">No items in the list.</p>
             {% endif %}
         </center>
             
