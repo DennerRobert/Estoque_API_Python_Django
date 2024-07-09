@@ -31,7 +31,6 @@ class add_estoque(CreateView):
 	def form_valid(self, form):
 		if form.is_valid():
 			estoque = form.save(commit=False)
-			print('Successfully', )
 			estoque.movimentacao = 'e'
 			estoque.funcionario = self.request.user
 			estoque.save()
