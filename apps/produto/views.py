@@ -43,9 +43,7 @@ class ProdutoAddView(CreateView):
         produtos_form.produto = produtos_form.produto
         produtos_form.preco = produtos_form.preco
         produtos_form.estoque = produtos_form.estoque
-
         produtos_form.save()
-        messages.success(self.request, self.success_message)  
         
         return redirect('produto:produto_list')
 
@@ -61,16 +59,13 @@ class ProdutoEditView(UpdateView):
     
     def form_valid(self, form):
         produto = form.save()
-        messages.success(self.request, 'Produto editado com sucesso!')
         return redirect('produto:produto_list')
     
 
 class DispostivosDeleteAjax(View):
-    success_message = 'Dispositivo excluido com sucesso!'
-    error_message = 'Ops, Não foi possível excluir o dispositivo!'
-
     def get(self, request, pk):
         remove_produto = Produtos.objects.filter(pk=pk).first()
+
         if remove_produto:
             remove_produto.ativo = False
             remove_produto.save()

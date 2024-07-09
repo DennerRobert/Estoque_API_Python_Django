@@ -71,6 +71,8 @@ class up_estoque(UpdateView):
 				return redirect('estoque_produtos:estoque_entrada_list')
 			else:
 				return redirect('estoque_produtos:estoque_saida_list')
+		else:
+			print('Formset errors:', estoque_itens_formset.errors)
 
 		if estoque.movimentacao == 'e':
 			return redirect('estoque_produtos:estoque_entrada_list')
@@ -98,6 +100,7 @@ class del_estoque(CreateView):
 	def form_valid(self, form):
 		estoque = form.save(commit=False)
 		estoque.movimentacao = 's'
+		estoque.funcionario = self.request.user
 		estoque.save()
 		return redirect('estoque_produtos:estoque_entrada_up', pk=estoque.pk)
 	

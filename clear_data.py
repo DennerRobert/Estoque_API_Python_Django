@@ -11,15 +11,13 @@ from apps.produto.models import Produtos
 def clear_data():
     pass
     # Excluir todos os entradas / saídas
-    # clean = EstoqueItens.objects.all().delete()
-    # clean_1 = Estoque.objects.all().delete()
+    # clean_0 = EstoqueItens.objects.all().delete()
+    # clean_1= Estoque.objects.all().delete()
     # --------
 
     # Excluir todos os Produtos
-    # clean = Produtos.objects.all().delete()
+    # clean_2 = Produtos.objects.all().delete()
     # --------
     
-    # clean = Produtos.objects.all()
-    # print('-----', clean) 
 if __name__ == '__main__':
     clear_data()

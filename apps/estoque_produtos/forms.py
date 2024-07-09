@@ -19,7 +19,7 @@ class EstoqueItensForm(forms.ModelForm):
 		exclude = ('id', 'estoque',)
 		widgets = {
 			'quantidade': forms.TextInput(attrs={'placeholder':'0','required': 'required'}),
-			'saldo': forms.TextInput(attrs={'placeholder':'0,00','readonly': 'readonly'}),
+			'saldo': forms.TextInput(attrs={'placeholder':'0,00'}),
 		}
 
 EstoqueItensFormSet = forms.inlineformset_factory(
