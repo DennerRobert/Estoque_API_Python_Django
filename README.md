@@ -10,15 +10,21 @@ Este projeto foi desenvolvido durante o período inicial da faculdade com o obje
 Atualmente, o projeto está sendo retomado o desenvolvimento para finalizar e integrar melhorias.
 
 
-- Próximos Passos:
-
-Revisão e atualização do escopo original.
-Implementação de novas funcionalidades.
-Ajustes conforme novas necessidades identificadas.
-Testes, dockerização e finalização.
-
-
 - Objetivo com a Retomada:
 
 Atualizar e concluir o projeto, aplicando conhecimentos e tecnologias adquiridas posteriormente.
 
+
+- Próximos Passos:
+
+ok - Revisão e atualização do escopo original.
+ok - Atualização geral de layout
+ok - Remoção de alguns inputs que não eram necessários
+- Atualizar a tela onde o item é editado.
+- Atualizar o campo de saldo
+    - Imutável
+    - Contabilizar de acordo com a quantidade adicionada
+- Campo de busca
+- Gerar relatórios das listagens 
+- Verificar funcionalidade por API
+- Dockerização.
