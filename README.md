@@ -29,4 +29,5 @@ ok - Remoção de alguns inputs que não eram necessários
 - Campo de busca
 - Gerar relatórios das listagens 
 - Verificar funcionalidade por API
+- Logs
 - Dockerização.
