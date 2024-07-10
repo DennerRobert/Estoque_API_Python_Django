@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.utils.translation import gettext as _
 from django.urls import reverse_lazy
+from django.http import JsonResponse
 
 # api produto
 # from rest_framework.generics import CreateAPIView
@@ -42,7 +43,7 @@ class ProdutoAddView(CreateView):
         produtos_form.ativo = True
         produtos_form.produto = produtos_form.produto
         produtos_form.preco = produtos_form.preco
-        produtos_form.estoque = produtos_form.estoque
+        produtos_form.estoque = 0
         produtos_form.save()
         
         return redirect('produto:produto_list')

@@ -19,7 +19,8 @@
 
 	<style>
 		body{
-			background-color:#3760e9b2
+			background-color:#7589cab2
+			/* background-color:#3760e9b2 */
 		};
 		.dropdown-menu .dropdown-item {
 			color: rgb(247, 242, 242);
@@ -66,7 +67,8 @@
 	{% endblock%}
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #45e6b581;">
+	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #1d202081;">
+		<!-- <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #45e6b581;"> -->
 		<div class="dd">
 			<div class="square"></div>
 		</div>
@@ -90,9 +92,9 @@
 				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
-				<h3 style="color: white; font-weight: bold; margin-top: 3px;">{{ user.username }}</h3>
+				<h3 style="color: white; font-weight: bold; margin-top: 3px;">{{ user.username|upper }}</h3>
                 <li class="nav-item">
-                    <a style="color:white; font-weight: bold; margin-left: 10px;" class="nav-link btn btn-outline-primary text-center fs-5" href="{% url 'logout' %}">Logout</a>
+                    <a style="color:white; font-weight: bold; margin-left: 10px;" class="nav-link btn btn-outline-warning text-center fs-5" href="{% url 'logout' %}">Logout</a>
                 </li>
             </ul>
 		</div>

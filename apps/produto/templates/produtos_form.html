@@ -12,7 +12,7 @@
             background-color: #04050744; 
             width: 20%; 
             min-width: 385px; 
-            min-height:550px; 
+            min-height:350px; 
             height: 400px; 
             border-radius: 10px;
 			margin-left: 40%;
@@ -60,9 +60,9 @@
 			margin-top: 40px;
 		}
 		.title{
-			background-color: #45e6b581; 
+			background-color: white; 
 			border-radius: 10px;
-			color: aliceblue;
+			color: black;
 		}
     </style>
 {% endblock %}
@@ -85,13 +85,9 @@
 					<label>Price of the product</label>
 					{% bootstrap_field form.preco show_label=false placeholder="$ 0,00" %}
 				</div>
-				<div class="product_quantity">
-					<label>Amount</label>
-					{% bootstrap_field form.estoque show_label=false placeholder="0" %}
-				</div>
 				<center>
 					<div class="btns">
-						<input type="submit" style="color:white; font-weight: bold" class="btn btn-outline-primary text-center fs-5" value="Register">
+						<input type="submit" style="color:white; font-weight: bold" class="btn btn-outline-success text-center fs-5" value="Register">
 						<a href="{% url 'produto:produto_list' %}" style="color:white; font-weight: bold" class="btn btn-outline-danger text-center fs-5">Back</a><br>
 					</div>
 				</center>

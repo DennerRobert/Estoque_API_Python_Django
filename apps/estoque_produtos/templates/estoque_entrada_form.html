@@ -14,7 +14,7 @@
 			background-color: #f1f4fc44; 
 			width: 20%; 
 			min-width: 385px; 
-			min-height:550px; 
+			min-height:450px; 
 			height: 200px; 
 			border-radius: 10px;
 			margin-left: 40%;
@@ -28,26 +28,7 @@
 			margin-top: 20px;
 			width: 300px;
 		}
-		.Employee{
-			width: 80%;
-			font-size: 150%;
-			color: white; 
-			font-weight: bold;
-			text-align: left; 
-			margin-left: 10%; 
-			margin-top: 40px;
-
-		}
 		.Invoice{
-			width: 80%;
-			font-size: 150%;
-			color: white; 
-			font-weight: bold;
-			text-align: left; 
-			margin-left: 10%; 
-			margin-top: 40px;
-		}
-		.movement{
 			width: 80%;
 			font-size: 150%;
 			color: white; 
@@ -62,9 +43,9 @@
 			margin-top: 40px;
 		}
 		.title{
-			background-color: #45e6b581; 
+			background-color: white; 
 			border-radius: 10px;
-			color: aliceblue;
+			color: black;
 		}
 	</style>
 {% endblock %}
@@ -85,9 +66,9 @@
 					</div>
 				
 					{% if object %}
-						<table class="table">
+						<table class="table" style="width: 100%; table-layout: fixed;">
 							<thead>
-								<th>Product</th>
+								<th style="width: 200px;">Product</th>
 								<th>Amount</th>       
 								<th>Balance</th>       
 							</thead>
@@ -96,7 +77,7 @@
 								{% for form in estoque_itens_formset %}
 								{{ form.id }}
 								<tr class="estoque_itens_formset">
-									<td width="">{% bootstrap_field form.produto show_label=False %}</td>
+									<td>{% bootstrap_field form.produto show_label=False %}</td>
 									<td>{% bootstrap_field form.quantidade show_label=False %}</td>
 									<td>{% bootstrap_field form.saldo show_label=False %}</td>
 								</tr>
@@ -115,4 +96,51 @@
 {% endblock content %}
 
 {% block scripts %}
-{% endblock scripts %}
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		// Função para buscar o saldo do produto e atualizar o campo de saldo
+		function buscarSaldoProduto(produtoId, quantidade, saldoField) {
+			fetch(`/estoque/estoque_produtos/${produtoId}/saldo/`)
+				.then(response => {
+					if (!response.ok) {
+						throw new Error('Erro ao buscar saldo do produto');
+					}
+					return response.text(); // coloca o resyltado em texto
+				})
+				.then(text => {
+					const data = JSON.parse(text);
+					saldoField.value = data.saldo_disponivel * quantidadeField.value; // colocar valor em 2 casas decimais
+				})
+				.catch(error => {
+					console.error('Erro ao buscar saldo do produto2:', error);
+				});
+		}
+	
+		// pegar os elementos respectivos
+		const produtoField = document.getElementById('id_estoqueitens_set-0-produto');
+		const quantidadeField = document.getElementById('id_estoqueitens_set-0-quantidade');
+		const saldoField = document.getElementById('id_estoqueitens_set-0-saldo');
+	
+		// Event listener // mudar o campo relacionado com troca de produto
+		produtoField.addEventListener('change', function() {
+			const produtoId = produtoField.value;
+			const quantidade = quantidadeField.value;
+	
+			buscarSaldoProduto(produtoId, quantidade, saldoField);
+		});
+	
+		// Event listener // mudar o campo relacionado com troca de quantidade
+		quantidadeField.addEventListener('input', function() {
+			const produtoId = produtoField.value;
+			const quantidade = quantidadeField.value;
+	
+			buscarSaldoProduto(produtoId, quantidade, saldoField);
+		});
+	
+		// Chamar a função inicialmente ao carregar a página para configurar o saldo inicial
+		const initialProdutoId = produtoField.value;
+		const initialQuantidade = quantidadeField.value;
+		buscarSaldoProduto(initialProdutoId, initialQuantidade, saldoField);
+	});
+	</script>	
+{% endblock %}

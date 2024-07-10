@@ -13,7 +13,9 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<style>
 		body {
-			background: #3760e9b2;
+			/* background: #3760e9b2; */
+			background-color:#7589cab2;
+
 			display: grid;
 			place-items: center;
 			min-height: 100vh;
@@ -68,7 +70,7 @@
 		}
 		.user {
 			font-weight: bold;
-			color: white; 
+			color: black; 
 			text-align: left; 
 			margin-left: 10%; 
 			margin-top: 20px;
@@ -78,7 +80,7 @@
 		}
 		.password{
 			font-weight: bold;
-			color: white; 
+			color: black; 
 			text-align: left; 
 			margin-left: 10%; 
 			margin-top: 20px;
@@ -103,7 +105,7 @@
 			<div class="col8" m-auto style="margin-top: 20px;">
 				<div class="password">Password</div> 
 				<td><input id="id_password" name="password" type="password" class="form-control" placeholder="***************"></td>
-				<button type="submit" class="btn btn-outline-primary text-center fs-5" style="margin-top: 40px; width: 203px; color:white; font-weight: bold;">Login</button>
+				<button type="submit" class="btn btn-outline-primary text-center fs-5" style="margin-top: 40px; width: 203px; color:black; font-weight: bold;">Login</button>
 			</div>
 			</center>
 			{% if form.errors %}

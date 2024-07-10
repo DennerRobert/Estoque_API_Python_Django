@@ -103,17 +103,9 @@ class del_estoque(CreateView):
 		estoque.funcionario = self.request.user
 		estoque.save()
 		return redirect('estoque_produtos:estoque_entrada_up', pk=estoque.pk)
-	
-def get_saldo_ajax(request):
-		# retomar att saldo
-		produto_id = request.GET.get('produto')
-		quantidade = request.GET.get('quantidade')
 
-		if not quantidade:
-			quantidade = 0
-			
-		produto = Produtos.objects.filter(id = produto_id).first()
-		if produto:
-			saldo = int(produto.estoque) + int(quantidade)
-
-		return JsonResponse({'result': saldo})
+#Atualizar saldo em tela -
+def produto_saldo(request, produto_id):
+	produto = Produtos.objects.filter(id = produto_id).first()
+	saldo_disponivel = produto.preco
+	return JsonResponse({'saldo_disponivel': saldo_disponivel})

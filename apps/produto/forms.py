@@ -5,4 +5,4 @@ class ProdutosForm(forms.ModelForm):
     class Meta:
         model = Produtos
         fields = ('produto', 'preco', 'estoque')
-        exclude = ('id',)
+        exclude = ('id', 'estoque')

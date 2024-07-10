@@ -23,7 +23,8 @@ class EstoqueItens(models.Model):
     estoque = models.ForeignKey(Estoque, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produtos, on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField()
-    saldo = models.PositiveIntegerField()
+    saldo = models.FloatField()
+
 
     class Meta:
         ordering = ('pk',)
