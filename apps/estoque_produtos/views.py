@@ -16,6 +16,10 @@ class EstoqueEntradaList(ListView):
 	def get_queryset(self, **kwargs):
 		return Estoque.objects.filter(movimentacao='e')
 
+	def get_context_data(self, **kwargs):
+		ctx = super(EstoqueEntradaList, self).get_context_data(**kwargs)
+		ctx['title'] = 'Stock Entry'
+		return ctx
 
 class add_estoque(CreateView):
 	template_name ='estoque_entrada_form.html'
@@ -25,7 +29,7 @@ class add_estoque(CreateView):
 
 	def get_context_data(self, **kwargs):
 		ctx = super(add_estoque, self).get_context_data(**kwargs)
-
+		ctx['title'] = 'Stock Entry'
 		return ctx
 
 	def form_valid(self, form):
@@ -47,6 +51,7 @@ class up_estoque(UpdateView):
 	def get_context_data(self, **kwargs):
 		ctx = super(up_estoque, self).get_context_data(**kwargs)
 		ctx['estoque_itens_formset'] = EstoqueItensFormSet(instance=self.object)
+		ctx['title'] = 'Stock Update'
 		return ctx
 
 	def form_valid(self, form):
@@ -95,6 +100,7 @@ class del_estoque(CreateView):
 
 	def get_context_data(self, **kwargs):
 		ctx = super(del_estoque, self).get_context_data(**kwargs)
+		ctx['title'] = 'Stock Exit'
 		return ctx
 
 	def form_valid(self, form):
