@@ -17,8 +17,10 @@ Atualizar e concluir o projeto, aplicando conhecimentos e tecnologias adquiridas
 
 - Próximos Passos:
 
-ok - Revisão e atualização do escopo original.
+ok - Revisão e atualização do escopo original
+
 ok - Atualização geral de layout
+
 ok - Remoção de alguns inputs que não eram necessários
 - Atualizar a tela onde o item é editado.
 - Atualizar o campo de saldo
