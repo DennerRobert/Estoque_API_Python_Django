@@ -12,6 +12,7 @@ urlpatterns = [
     path('saida/', views.del_estoque.as_view(), name='estoque_saida'),
 
     path('<int:pk>/up/', views.up_estoque.as_view(), name='estoque_entrada_up'),
+    path('<int:pk>/detail/', views.Detail_stock_entry.as_view(), name='detail_estoque_entrada'),
 
     path('estoque_produtos/<int:produto_id>/saldo/', produto_saldo, name='produto_saldo'),
 ]

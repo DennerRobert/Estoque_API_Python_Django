@@ -6,6 +6,9 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from ..produto.models import Produtos
 from django.http import JsonResponse
+from django.forms import inlineformset_factory
+from .models import Estoque, EstoqueItens
+from .forms import EstoqueForm, EstoqueItensForm
 
 
 class EstoqueEntradaList(ListView):
@@ -115,3 +118,32 @@ def produto_saldo(request, produto_id):
 	produto = Produtos.objects.filter(id = produto_id).first()
 	saldo_disponivel = produto.preco
 	return JsonResponse({'saldo_disponivel': saldo_disponivel})
+
+# detail entry product
+class Detail_stock_entry(ListView):
+	template_name = 'detail_entry_list.html'
+	model = Estoque
+	form_class = EstoqueForm
+
+	def get_context_data(self, **kwargs):
+		ctx = super(Detail_stock_entry, self).get_context_data(**kwargs)
+		id = self.kwargs.get('pk')
+		product = Estoque.objects.filter(id=id).first()
+
+		EstoqueItensFormSet = inlineformset_factory(Estoque, EstoqueItens, form=EstoqueItensForm, extra=0)
+
+		ctx['estoque'] = product
+		ctx['user'] = product.funcionario
+		ctx['nf'] = product.nf
+		ctx['movimentacao'] = product.movimentacao
+		ctx['formset'] = EstoqueItensFormSet(instance=product)
+		ctx['title'] = 'Detail Entry'
+
+		# Passa os dados de cada formulário individualmente para o contexto
+		if EstoqueItensFormSet(instance=product):
+			for form in EstoqueItensFormSet(instance=product):
+				produto_nome = form.instance.produto.produto if form.instance.produto else ''
+
+				ctx['produto_nome'] = produto_nome
+		
+		return ctx

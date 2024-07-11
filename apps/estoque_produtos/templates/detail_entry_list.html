@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap3 %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block styles %}
+	<style>
+		.box1 {
+			/* background-color: #45e6b581;  */
+			background-color: #f1f4fc44; 
+			width: 20%; 
+			min-width: 585px; 
+			min-height:550px; 
+			height: 200px; 
+			border-radius: 10px;
+			margin-top: 5%;
+		}
+		.title{
+			background-color: #1d202081; 
+			border-radius: 10px;
+			color: white;
+			margin-top: 20px;
+			font-weight: bold;
+		}
+		.sub{
+			background-color: #585e5e81; 
+			border-radius: 10px;
+			color: white;
+			margin-top: 20px;
+			font-weight: bold;
+			width: 50%;
+			font-size: 25px;
+		}
+		.sub1{
+			font-weight: bold; 
+			font-size: 20px;
+		}
+		/* css que "imita" o bootstrapfield */
+		.form-control {
+			display: block;
+				width: 100%;
+			padding: .375rem .75rem;
+			font-size: 1rem;
+			line-height: 1.5;
+			color: #495057;
+			background-color: #fff;
+			background-clip: padding-box;
+			border: 1px solid #ced4da;
+			border-radius: .25rem;
+			transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+		}
+    </style>
+{% endblock %}
+
+{% block content %}
+	<center>
+		<div class="box1">
+			<h2 class="title">STOCK ENTRY DETAILS</h2>
+
+			<h3 class="sub">Employee</h3>
+			<p class="sub1">{{ user|upper }}</p>
+			
+			<h3 class="sub">Invoice</h3>
+			<p class="sub1">{{ nf }}</p>
+			
+			<h3 class="sub">Movement</h3>
+			{% if movimentacao == 'e' %}
+				<p class="sub1">Inbound movement</p>
+			{% else %}
+				<p class="sub1">Exit movement</p>
+			{% endif %}	
+
+			
+			<h3 class="title">STOCK ITEMS</h3>
+			<form method="post">
+				{% csrf_token %}
+				{{ formset.management_form }}
+				<table class="table" style="width: 100%; table-layout: fixed;">
+					<thead>
+						<th style="width: 200px;">PRODUCT</th>
+						<th>AMOUNT</th>       
+						<th>BALANCE</th>  
+					</thead>
+					<tbody>
+						{% for form in formset %}
+						<tr>
+							<td><input type="text" id="{{ form.produto.id_for_label }}" name="{{ form.produto.html_name }}" value="{{ produto_nome }}" disabled class="form-control"></td>
+							<td><input type="text" id="{{ form.quantidade.id_for_label }}" name="{{ form.quantidade.html_name }}" value="{{ form.quantidade.value }}" disabled class="form-control"></td>
+							<td><input type="text" id="{{ form.saldo.id_for_label }}" name="{{ form.saldo.html_name }}" value="{{ form.saldo.value }}" disabled class="form-control"></td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</form>
+			<a href="{% url 'estoque_produtos:estoque_entrada_list' %}" style="color:white; font-weight: bold" class="btn btn-outline-danger text-center fs-5">Back</a><br>
+		</div>
+	</center>
+{% endblock %}
