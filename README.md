@@ -22,10 +22,11 @@ ok - Revisão e atualização do escopo original
 ok - Atualização geral de layout
 
 ok - Remoção de alguns inputs que não eram necessários
+
 ok - Atualizar a tela onde o item é editado.
-ok - Atualizar o campo de saldo
-ok    - Imutável
-ok   - Contabilizar de acordo com a quantidade adicionada
+
+ok - Atualizar o campo de saldo { - Imutável - Contabilizar de acordo com a quantidade adicionada}
+
 ok - Campo de busca
 - Gerar relatórios das listagens 
 - Verificar funcionalidade por API
