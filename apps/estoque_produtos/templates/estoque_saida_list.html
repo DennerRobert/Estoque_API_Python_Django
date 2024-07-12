@@ -47,39 +47,40 @@
 {% endblock %}
 
 {% block content %}
-        <center>
-            <div class="title">
-                <h2>Stock Exit
-                    <span>
-                        <a style="margin-bottom: 4px;" class="btn btn-outline-primary text-center fs-5" href="{% url 'estoque_produtos:estoque_saida' %}"> + Add</a>
-                    </span>
-                </h2>
-            </div>
+		<center>
+			<div class="title">
+				<h2>Stock Exit
+					<span>
+						<a style="margin-bottom: 4px;" class="btn btn-outline-primary text-center fs-5" href="{% url 'estoque_produtos:estoque_saida' %}"> + Add</a>
+					</span>
+				</h2>
+			</div>
 
-            {% if object_list %}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Invoice</th>
-                            <th>Date</th>
-                            <th>User</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for object in object_list %}
-                            <tr>
-                                <td><a href="{% url 'estoque_produtos:estoque_entrada_up' pk=object.pk %}" >{{ object }}</a></td>
-                                <td>{{ object.nf }}</td>
-                                <td>{{ object.created|date:'d/m/Y' }}</td>
-                                <td>{{ object.funcionario.username }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p class="alert alert-warning">No items in the list.</p>
-            {% endif %}
-        </center>
-            
+			{% if object_list %}
+				<table>
+					<thead>
+						<tr>
+							<th>Edit Item</th>
+							<th>Detail Item</th>
+							<th>Invoice</th>
+							<th>Date</th>
+							<th>User</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for object in object_list %}
+							<tr>
+								<td><a href="{% url 'estoque_produtos:estoque_entrada_up' pk=object.pk %}" >{{ object }}</a></td>
+                                <td><a href="{% url 'estoque_produtos:detail_estoque_saida' pk=object.pk %}">View</a></td>
+								<td>{{ object.nf }}</td>
+								<td>{{ object.created|date:'d/m/Y' }}</td>
+								<td>{{ object.funcionario.username }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			{% else %}
+				<p class="alert alert-warning">No items in the list.</p>
+			{% endif %}
+		</center>
 {% endblock content %}

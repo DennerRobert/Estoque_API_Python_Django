@@ -61,7 +61,7 @@
                     <thead>
                         <tr>
                             <th>Edit Item</th>
-                            <th>View Item</th>
+                            <th>Detail Item</th>
                             <th>Invoice</th>
                             <th>Date</th>
                             <th>User</th>
@@ -71,7 +71,7 @@
                         {% for object in object_list %}
                             <tr>
                                 <td><a href="{% url 'estoque_produtos:estoque_entrada_up' pk=object.pk %}">{{ object }}</a></td>
-                                <td><a href="{% url 'estoque_produtos:detail_estoque_entrada' pk=object.pk %}">lkkkk</a></td>
+                                <td><a href="{% url 'estoque_produtos:detail_estoque_entrada' pk=object.pk %}">View</a></td>
                                 <td>{{ object.nf }}</td>
                                 <td>{{ object.created|date:'d/m/Y' }}</td>
                                 <td>{{ object.funcionario.username }}</td>
@@ -83,5 +83,4 @@
                 <p class="alert alert-warning">No items in the list.</p>
             {% endif %}
         </center>
-            
 {% endblock content %}
