@@ -40,6 +40,11 @@
 			margin-top: 20px;
 			width: 50%;
 		}
+		.search{
+			display: inline-block; 
+			margin-left: 20px;
+			margin-bottom: 20px;
+		}
 	</style>
 {% endblock %}
 
@@ -48,6 +53,10 @@
 		<center>
 			<div class="title">
 				<h2>Product list</h2>
+				<form class="search" method="GET" action="">
+					<input type="text" name="q" id="id_search" placeholder="Search products..." value="{{ request.GET.q }}">
+					<button type="submit" class="btn btn-outline-info" style="margin-top: -3px;">Search</button>
+				</form>
 			</div>
 			{% if object_list %}
 				<table>
@@ -87,4 +96,7 @@
 			{% endif %}
 		</center>
 	</div>
-{% endblock content %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock scripts %}

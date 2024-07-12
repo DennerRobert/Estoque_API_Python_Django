@@ -14,7 +14,7 @@
 			background-color: #f1f4fc44; 
 			width: 20%; 
 			min-width: 385px; 
-			min-height:450px; 
+			min-height:500px; 
 			height: 200px; 
 			border-radius: 10px;
 			margin-left: 40%;
@@ -40,12 +40,20 @@
 		.btns{
 			font-size: 200%;
 			font-weight: bold;
-			margin-top: 40px;
+			margin-top: 80px;
 		}
 		.title{
 			background-color: white; 
 			border-radius: 10px;
 			color: black;
+		}
+			.select2-container--default .select2-selection--single {
+			height: 40px;  /* Ajuste para o tamanho desejado */
+		}
+		.table{
+			width: 100%; 
+			table-layout: fixed;
+			margin-top: 50px;
 		}
 	</style>
 {% endblock %}
@@ -66,7 +74,7 @@
 					</div>
 				
 					{% if object %}
-						<table class="table" style="width: 100%; table-layout: fixed;">
+						<table class="table">
 							<thead>
 								<th style="width: 200px;">Product</th>
 								<th>Amount</th>       
@@ -97,6 +105,12 @@
 
 {% block scripts %}
 <script>
+	// select2 no campo de pruduto do formset 
+    $(document).ready(function() {
+        $('#id_estoqueitens_set-0-produto').select2();
+    });
+</script>
+<script>
 	document.addEventListener('DOMContentLoaded', function() {
 		// Função para buscar o saldo do produto e atualizar o campo de saldo
 		function buscarSaldoProduto(produtoId, quantidade, saldoField) {
@@ -105,11 +119,11 @@
 					if (!response.ok) {
 						throw new Error('Erro ao buscar saldo do produto');
 					}
-					return response.text(); // coloca o resyltado em texto
+					return response.text();
 				})
 				.then(text => {
 					const data = JSON.parse(text);
-					saldoField.value = data.saldo_disponivel * quantidadeField.value; // colocar valor em 2 casas decimais
+					saldoField.value = data.saldo_disponivel * quantidadeField.value;
 				})
 				.catch(error => {
 					console.error('Erro ao buscar saldo do produto2:', error);

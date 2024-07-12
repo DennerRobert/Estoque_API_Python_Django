@@ -21,6 +21,9 @@ class EstoqueItensForm(forms.ModelForm):
 			'quantidade': forms.TextInput(attrs={'placeholder':'0','required': 'required'}),
 			'saldo': forms.TextInput(attrs={'placeholder':'0,00'}),
 		}
+		def __init__(self, *args, **kwargs):
+			super().__init__(*args, **kwargs)
+			self.fields['produto'].widget.attrs.update({'id': 'id_estoqueitens_set-0-produto'})
 
 EstoqueItensFormSet = forms.inlineformset_factory(
 	Estoque,

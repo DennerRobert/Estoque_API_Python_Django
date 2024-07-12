@@ -21,10 +21,15 @@ class ProdutoListView(ListView):
 
     def get_context_data(self, **kwargs):
         ctx = super(ProdutoListView, self).get_context_data(**kwargs)
+        ctx['query'] = self.request.GET.get('q', '')
         return ctx
 
     def get_queryset(self, **kwargs):
-        return Produtos.objects.filter(ativo=True).order_by('produto')
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(produto__icontains=query)
+        return queryset.filter(ativo=True).order_by('produto')
 
 
 class ProdutoAddView(CreateView):
