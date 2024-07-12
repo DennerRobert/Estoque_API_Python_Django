@@ -4,8 +4,7 @@ from django.views.generic import UpdateView, View, ListView, CreateView
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.utils.translation import gettext as _
-from django.urls import reverse_lazy
-from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 # api produto
 # from rest_framework.generics import CreateAPIView
@@ -16,20 +15,29 @@ from rest_framework import status
 
 
 class ProdutoListView(ListView):
-    model = Produtos
-    template_name = 'produtos_list.html'
+	model = Produtos
+	template_name = 'produtos_list.html'
+	context_object_name = 'produtos'
+	paginate_by = 10
 
-    def get_context_data(self, **kwargs):
-        ctx = super(ProdutoListView, self).get_context_data(**kwargs)
-        ctx['query'] = self.request.GET.get('q', '')
-        return ctx
+	def get_context_data(self, **kwargs):
+		ctx = super(ProdutoListView, self).get_context_data(**kwargs)
+		ctx['query'] = self.request.GET.get('q', '')
 
-    def get_queryset(self, **kwargs):
-        queryset = super().get_queryset()
-        query = self.request.GET.get('q')
-        if query:
-            queryset = queryset.filter(produto__icontains=query)
-        return queryset.filter(ativo=True).order_by('produto')
+		produtos = Produtos.objects.filter(ativo=True)
+		paginator = Paginator(produtos, self.paginate_by)
+		page_number = self.request.GET.get('page')
+		page_obj = paginator.get_page(page_number)
+		ctx['produtos'] = page_obj
+
+		return ctx
+
+	def get_queryset(self, **kwargs):
+		queryset = super().get_queryset()
+		query = self.request.GET.get('q')
+		if query:
+			queryset = queryset.filter(produto__icontains=query)
+		return queryset.filter(ativo=True).order_by('produto')
 
 
 class ProdutoAddView(CreateView):

@@ -58,7 +58,7 @@
 					<button type="submit" class="btn btn-outline-info" style="margin-top: -3px;">Search</button>
 				</form>
 			</div>
-			{% if object_list %}
+			{% if produtos %}
 				<table>
 					<thead>
 						<tr>
@@ -91,6 +91,21 @@
 						{% endfor %}
 					</tbody>
 				</table>
+				<div class="pagination">
+					{% if produtos.has_previous %}
+						<a href="?page=1">&laquo; first</a>
+						<a href="?page={{ produtos.previous_page_number }}">previous</a>
+					{% endif %}
+
+					<span class="current">
+						Página {{ produtos.number }} de {{ produtos.paginator.num_pages }}.
+					</span>
+
+					{% if produtos.has_next %}
+						<a href="?page={{ produtos.next_page_number }}">next</a>
+						<a href="?page={{ produtos.paginator.num_pages }}">last &raquo;</a>
+					{% endif %}
+				</div>
 			{% else %}
 				<p class="alert alert-warning">No items in the list.</p>
 			{% endif %}
