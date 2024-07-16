@@ -28,7 +28,10 @@ ok - Atualizar a tela onde o item é editado.
 ok - Atualizar o campo de saldo { - Imutável - Contabilizar de acordo com a quantidade adicionada}
 
 ok - Campo de busca
+
+ok - Paginação das listagens (Produtos, Entradas e Saídas)
+
+
 - Gerar relatórios das listagens 
 - Verificar funcionalidade por API
-- Logs
 - Dockerização.
