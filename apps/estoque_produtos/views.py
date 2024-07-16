@@ -101,9 +101,23 @@ class EstoqueSaidaList(ListView):
 	raise_exception = True
 	model = Estoque
 	template_name = 'estoque_saida_list.html'
+	context_object_name = 'saida'
+	paginate_by = 10
 
 	def get_queryset(self, **kwargs):
-		return Estoque.objects.filter(movimentacao='s')   
+		return Estoque.objects.filter(movimentacao='s')  
+
+	def get_context_data(self, **kwargs):
+		ctx = super(EstoqueSaidaList, self).get_context_data(**kwargs)
+		ctx['title'] = 'Stock Exit'
+
+		saida = Estoque.objects.filter(movimentacao='s')
+		paginator = Paginator(saida, self.paginate_by)
+		page_number = self.request.GET.get('page')
+		page_obj = paginator.get_page(page_number)
+		ctx['saida'] = page_obj
+
+		return ctx 
 
 class del_estoque(CreateView):
 	template_name ='estoque_entrada_form.html'

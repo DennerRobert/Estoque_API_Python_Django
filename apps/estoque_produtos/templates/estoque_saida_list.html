@@ -43,6 +43,15 @@
 			margin-top: 20px;
 			width: 50%;
 		}
+		.pagination {
+			background-color: white;
+			color: black;
+			font-weight: bold;
+			width: 17%;
+		}
+
+		.pagination a:hover:not(.active) {background-color: gray;
+		}
 	</style>
 {% endblock %}
 
@@ -79,6 +88,29 @@
 						{% endfor %}
 					</tbody>
 				</table>
+				<div class="pagination">
+					{% if saida.has_previous and saida.has_next %}
+						<div style="margin-left: -45px;"></div>
+					{% endif %}
+
+					{% if saida.has_previous %}
+						<div style="margin-left: 45px;"></div>
+						<a href="?page=1" class="btn-outline-info" >&laquo; First</a>
+						<a href="?page={{ saida.previous_page_number }}" class="btn-outline-info" style="margin-left: 5px;">Previous</a>
+					{% else %}
+						<div style="margin-left: 70px;"></div>
+					{% endif %}
+					<span class="current" style="margin-left: 5px; color: black;">
+						Page {{ saida.number }} of {{ saida.paginator.num_pages }}.
+					</span>
+
+					{% if saida.has_next %}
+						<a href="?page={{ saida.next_page_number }}" class="btn-outline-info" style="margin-left: 5px;">Next</a>
+						<a href="?page={{ saida.paginator.num_pages }}" class="btn-outline-info" style="margin-left: 5px; ">Last &raquo;</a>
+					{% else %}
+						<div style="margin-left: 70px;"></div>
+					{% endif %}
+				</div>
 			{% else %}
 				<p class="alert alert-warning">No items in the list.</p>
 			{% endif %}
