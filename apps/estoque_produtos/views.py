@@ -9,12 +9,15 @@ from django.http import JsonResponse
 from django.forms import inlineformset_factory
 from .models import Estoque, EstoqueItens
 from .forms import EstoqueForm, EstoqueItensForm
+from django.core.paginator import Paginator
 
 
 class EstoqueEntradaList(ListView):
 	raise_exception = True
 	model = Estoque
 	template_name = 'estoque_entrada_list.html'
+	context_object_name = 'entrada'
+	paginate_by = 10
 
 	def get_queryset(self, **kwargs):
 		return Estoque.objects.filter(movimentacao='e')
@@ -22,6 +25,13 @@ class EstoqueEntradaList(ListView):
 	def get_context_data(self, **kwargs):
 		ctx = super(EstoqueEntradaList, self).get_context_data(**kwargs)
 		ctx['title'] = 'Stock Entry'
+
+		entrada = Estoque.objects.filter(movimentacao='e')
+		paginator = Paginator(entrada, self.paginate_by)
+		page_number = self.request.GET.get('page')
+		page_obj = paginator.get_page(page_number)
+		ctx['entrada'] = page_obj
+
 		return ctx
 
 class add_estoque(CreateView):
