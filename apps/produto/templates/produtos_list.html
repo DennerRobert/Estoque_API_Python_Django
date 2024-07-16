@@ -45,6 +45,15 @@
 			margin-left: 20px;
 			margin-bottom: 20px;
 		}
+		.pagination {
+		background-color: white;
+		color: black;
+		font-weight: bold;
+		width: 17%;
+		}
+
+		.pagination a:hover:not(.active) {background-color: gray;
+		}
 	</style>
 {% endblock %}
 
@@ -92,18 +101,26 @@
 					</tbody>
 				</table>
 				<div class="pagination">
-					{% if produtos.has_previous %}
-						<a href="?page=1">&laquo; first</a>
-						<a href="?page={{ produtos.previous_page_number }}">previous</a>
+					{% if produtos.has_previous and produtos.has_next %}
+						<div style="margin-left: -45px;"></div>
 					{% endif %}
 
-					<span class="current">
-						Página {{ produtos.number }} de {{ produtos.paginator.num_pages }}.
+					{% if produtos.has_previous %}
+						<div style="margin-left: 45px;"></div>
+						<a href="?page=1" class="btn-outline-info" >&laquo; First</a>
+						<a href="?page={{ produtos.previous_page_number }}" class="btn-outline-info" style="margin-left: 5px;">Previous</a>
+					{% else %}
+						<div style="margin-left: 70px;"></div>
+					{% endif %}
+					<span class="current" style="margin-left: 5px; color: black;">
+						Page {{ produtos.number }} of {{ produtos.paginator.num_pages }}.
 					</span>
 
 					{% if produtos.has_next %}
-						<a href="?page={{ produtos.next_page_number }}">next</a>
-						<a href="?page={{ produtos.paginator.num_pages }}">last &raquo;</a>
+						<a href="?page={{ produtos.next_page_number }}" class="btn-outline-info" style="margin-left: 5px;">Next</a>
+						<a href="?page={{ produtos.paginator.num_pages }}" class="btn-outline-info" style="margin-left: 5px; ">Last &raquo;</a>
+					{% else %}
+						<div style="margin-left: 70px;"></div>
 					{% endif %}
 				</div>
 			{% else %}
