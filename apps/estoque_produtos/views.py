@@ -17,7 +17,7 @@ class EstoqueEntradaList(ListView):
 	model = Estoque
 	template_name = 'estoque_entrada_list.html'
 	context_object_name = 'entrada'
-	paginate_by = 10
+	paginate_by = 2
 
 	def get_queryset(self, **kwargs):
 		return Estoque.objects.filter(movimentacao='e')
@@ -102,7 +102,7 @@ class EstoqueSaidaList(ListView):
 	model = Estoque
 	template_name = 'estoque_saida_list.html'
 	context_object_name = 'saida'
-	paginate_by = 10
+	paginate_by = 2
 
 	def get_queryset(self, **kwargs):
 		return Estoque.objects.filter(movimentacao='s')  
