@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import UpdateView, ListView, CreateView, DeleteView
 from .models import Estoque
 from .forms import EstoqueForm, EstoqueItensFormSet
@@ -59,32 +59,59 @@ class up_estoque(UpdateView):
 	template_name ='estoque_entrada_form.html'
 	model = Estoque
 	form_class = EstoqueForm
-	success_message = 'Produtos adicionado com sucesso'
+	success_message = 'Produtos atualizados com sucesso'
 
 	def get_context_data(self, **kwargs):
 		ctx = super(up_estoque, self).get_context_data(**kwargs)
-		ctx['estoque_itens_formset'] = EstoqueItensFormSet(instance=self.object)
+		if self.object:
+			ctx['estoque_itens_formset'] = EstoqueItensFormSet(instance=self.object)
+		else:
+			ctx['estoque_itens_formset'] = EstoqueItensFormSet()
 		ctx['title'] = 'Stock Update'
 		return ctx
 
 	def form_valid(self, form):
-		estoque = form.save()
-		estoque_itens_formset = EstoqueItensFormSet(self.request.POST, instance=self.object)
-		
-		if estoque_itens_formset.is_valid():
-			for estoque_item_form in estoque_itens_formset:
-				estoque_itens_formset = estoque_item_form.save(commit=False)
-				total_produto = Produtos.objects.filter(id = estoque_itens_formset.produto_id).first()
-				
-				if total_produto:
-					if estoque.movimentacao == 'e':
-						total_produto.estoque +=  estoque_itens_formset.quantidade
-					else:
-						total_produto.estoque -=  estoque_itens_formset.quantidade
-					total_produto.save()
+		estoque = form.save(commit=False)
+		estoque_itens_formset = EstoqueItensFormSet(self.request.POST, instance=estoque)
 
-				estoque_itens_formset.save()
+		if estoque_itens_formset.is_valid():
+			estoque_item_form = estoque_itens_formset.forms[0]
+			estoque_item = estoque_item_form.save(commit=False)
 			
+			estoque_item_atual = None
+			if estoque_item.id:
+				estoque_item_atual = EstoqueItens.objects.get(id=estoque_item.id)
+
+			if estoque_item_atual and estoque_item.produto_id != estoque_item_atual.produto_id:
+				produto_antigo = get_object_or_404(Produtos, id=estoque_item_atual.produto_id)
+				produto_novo = get_object_or_404(Produtos, id=estoque_item.produto_id)
+
+				if estoque.movimentacao == 'e':
+					produto_antigo.estoque -= estoque_item_atual.quantidade
+					produto_novo.estoque += estoque_item.quantidade
+				elif estoque.movimentacao == 's':
+					produto_antigo.estoque += estoque_item_atual.quantidade
+					produto_novo.estoque -= estoque_item.quantidade
+
+				produto_antigo.save()
+				produto_novo.save()
+
+			else:
+				for estoque_item_form in estoque_itens_formset:
+					estoque_itens_formset = estoque_item_form.save(commit=False)
+					total_produto = Produtos.objects.filter(id = estoque_itens_formset.produto_id).first()
+					
+					if total_produto:
+						if estoque.movimentacao == 'e':
+							total_produto.estoque +=  estoque_itens_formset.quantidade
+						else:
+							total_produto.estoque -=  estoque_itens_formset.quantidade
+						total_produto.save()
+
+					estoque_itens_formset.save()
+			estoque_item.save()
+			estoque.save()
+
 			if estoque.movimentacao == 'e':
 				return redirect('estoque_produtos:estoque_entrada_list')
 			else:
@@ -92,10 +119,7 @@ class up_estoque(UpdateView):
 		else:
 			print('Formset errors:', estoque_itens_formset.errors)
 
-		if estoque.movimentacao == 'e':
-			return redirect('estoque_produtos:estoque_entrada_list')
-		else:
-			return redirect('estoque_produtos:estoque_saida_list')
+		return super().form_invalid(form)
 
 class EstoqueSaidaList(ListView):
 	raise_exception = True
