@@ -104,6 +104,8 @@
 				<form class="search" method="GET" action="">
 					<input type="text" name="q" id="id_search" placeholder="Search products..." value="{{ request.GET.q }}">
 					<button type="submit" class="btn btn-outline-info" style="margin-top: -3px;">Search</button>
+					<a href="{% url 'produto:produto_print_atual' %}?{% if request.GET.q %}q={{ request.GET.q }}{% endif %}" class="btn btn-outline-info" style="margin-top: -3px;" target="_blank">Print list</a>
+					<a href="{% url 'produto:produto_print_todos' %}" class="btn btn-outline-info" style="margin-top: -3px;" target="_blank">Print all products</a>
 				</form>
 			</div>
 			{% if produtos %}
@@ -114,6 +116,7 @@
 							<th>Product</th>
 							<th>Price</th>
 							<th class="text-center">Stock</th>
+							<th style="text-align: center;">Total Balance</th>
 							<th style="text-align: center;">Action</th>
 						</tr>
 					</thead>
@@ -125,6 +128,7 @@
 								<td>{{ object.produto }}</td>
 								<td>{{ object.preco }}</td>
 								<td class="text-center">{{ object.estoque }}</td>
+								<td class="text-center">{{ object.valor_total }}</td>
 								<td style="text-align: center;">
 									<a  class="btn btn-outline-info text-center fs-5"
 										href="{% url 'produto:produto_edit' pk=object.pk%}">
