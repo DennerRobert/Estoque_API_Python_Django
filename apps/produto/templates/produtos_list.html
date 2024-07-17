@@ -132,7 +132,7 @@
 								<td>{{ object.produto }}</td>
 								<td>{{ object.preco }}</td>
 								<td class="text-center">{{ object.estoque }}</td>
-								<td class="text-center">{{ object.valor_total }}</td>
+								<td class="text-center">$ {{ object.valor_total }}</td>
 								<td style="text-align: center;">
 									<a  class="btn btn-outline-info text-center fs-5"
 										href="{% url 'produto:produto_edit' pk=object.pk%}">

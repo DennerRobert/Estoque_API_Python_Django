@@ -158,6 +158,10 @@ class ProdutoPrintAtualView(ListView):
 		for produto in ctx['produtos']:
 			produto.valor_total = produto.estoque * produto.preco
 
+		user = self.request.user
+		date = datetime.now().strftime('%d-%m-%Y - %H:%M')
+		ctx['user']	= user 
+		ctx['date']	= date 
 		return ctx
 
 class ProdutoPrintTodosView(ListView):
