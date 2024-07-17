@@ -2,7 +2,7 @@ from django.urls import path
 from apps.produto import views
 
 # api produto
-from .views import ProdutoViewSet
+from .views import ProdutoExcelTodosView, ProdutoViewSet
 
 
 app_name = 'produto'
@@ -16,6 +16,8 @@ urlpatterns = [
 	path('produtos/imprimir_atual/', views.ProdutoPrintAtualView.as_view(), name='produto_print_atual'),
 	path('produtos/imprimir_todos/', views.ProdutoPrintTodosView.as_view(), name='produto_print_todos'),
 
+    path('export/excel/todos/', ProdutoExcelTodosView.as_view(), name='produto_excel_todos'),
+    
 	# api produto
 	path('listar_produto/', ProdutoViewSet.as_view({'get': 'list'}), name='listar_produto'),
 	path('adicionar_produto/', ProdutoViewSet.as_view({'post': 'create'}), name='adicionar_produto'),

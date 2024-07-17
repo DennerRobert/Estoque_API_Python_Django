@@ -1,3 +1,4 @@
+from datetime import datetime
 from apps.produto.forms import ProdutosForm
 from .models import Produtos
 from django.views.generic import UpdateView, View, ListView, CreateView
@@ -5,6 +6,8 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.utils.translation import gettext as _
 from django.core.paginator import Paginator
+import openpyxl
+from django.http import HttpResponse
 
 # api produto
 # from rest_framework.generics import CreateAPIView
@@ -134,7 +137,7 @@ class ProdutoViewSet(viewsets.ViewSet):
 		# return Response(status=status.HTTP_204_NO_CONTENT)
 		return Response(status=201)
     
-
+# print product list
 class ProdutoPrintAtualView(ListView):
 	model = Produtos
 	template_name = 'produto_print.html'
@@ -169,4 +172,49 @@ class ProdutoPrintTodosView(ListView):
 		for produto in ctx['produtos']:
 			produto.valor_total = produto.estoque * produto.preco
 
+		user = self.request.user
+		date = datetime.now().strftime('%d-%m-%Y - %H:%M')
+		ctx['user']	= user 
+		ctx['date']	= date 
 		return ctx
+	
+# print product list - xlsx
+class ExportProdutoExcelView(ListView):
+	model = Produtos
+
+	def get_queryset(self):
+		queryset = super().get_queryset()
+		query = self.request.GET.get('q')
+		if query:
+			queryset = queryset.filter(produto__icontains=query)
+		return queryset
+
+	def export_to_excel(self, queryset, filename):
+		workbook = openpyxl.Workbook()
+		sheet = workbook.active
+		sheet.title = "Produtos"
+
+		headers = ['ID', 'Product', 'Price', 'Stock', 'Total Balance']
+		sheet.append(headers)
+
+		for index, produto  in enumerate(queryset, start=1):
+			row = [
+				index,
+				produto.produto.upper(),
+				produto.preco,
+				produto.estoque,
+				produto.estoque * produto.preco
+			]
+			sheet.append(row)
+
+		response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+		response['Content-Disposition'] = f'attachment; filename={filename}.xlsx'
+		workbook.save(response)
+		return response
+
+
+class ProdutoExcelTodosView(ExportProdutoExcelView):
+	def get(self, request, *args, **kwargs):
+		queryset = Produtos.objects.filter(ativo=True)
+
+		return self.export_to_excel(queryset, 'produtos_completo')
