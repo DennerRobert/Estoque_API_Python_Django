@@ -95,39 +95,39 @@
 {% endblock %}
 
 {% block content %}
-        <center>
-            <div class="title">
-                <h2>Stock Entry
-                    <span>
-                        <a style="margin-bottom: 4px;" class="btn btn-outline-primary text-center fs-5" href="{% url 'estoque_produtos:estoque_entrada_add' %}"> + Add </a>
-                    </span>
-                </h2>
-            </div>
-            
-            {% if object_list %}
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Edit Item</th>
-                            <th>Detail Item</th>
-                            <th>Invoice</th>
-                            <th>Date</th>
-                            <th>User</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for object in object_list %}
-                            <tr>
-                                <td><a href="{% url 'estoque_produtos:estoque_entrada_up' pk=object.pk %}"  class="btn-outline-info">{{ object }}</a></td>
-                                <td><a href="{% url 'estoque_produtos:detail_estoque_entrada' pk=object.pk %}"  class="btn-outline-info">View</a></td>
-                                <td>{{ object.nf }}</td>
-                                <td>{{ object.created|date:'d/m/Y' }}</td>
-                                <td>{{ object.funcionario.username }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <div class="pagination">
+		<center>
+			<div class="title">
+				<h2>Stock Entry
+					<span>
+						<a style="margin-bottom: 4px;" class="btn btn-outline-primary text-center fs-5" href="{% url 'estoque_produtos:estoque_entrada_add' %}"> + Add </a>
+					</span>
+				</h2>
+			</div>
+			
+			{% if object_list %}
+				<table>
+					<thead>
+						<tr>
+							<th>Edit Item</th>
+							<th>Detail Item</th>
+							<th>Invoice</th>
+							<th>Date</th>
+							<th>User</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for object in object_list %}
+							<tr>
+								<td><a href="{% url 'estoque_produtos:estoque_entrada_up' pk=object.pk %}"  class="btn-outline-info">{{ object }}</a></td>
+								<td><a href="{% url 'estoque_produtos:detail_estoque_entrada' pk=object.pk %}"  class="btn-outline-info">View</a></td>
+								<td>{{ object.nf }}</td>
+								<td>{{ object.created|date:'d/m/Y' }}</td>
+								<td>{{ object.funcionario.username }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<div class="pagination">
 					<div class="pagination-container" style="display: flex; justify-content: center; align-items: center;">
 						{% if entrada.has_previous %}
 							<a href="?page=1" class="btn-outline-info">&laquo; First</a>
@@ -153,8 +153,8 @@
 						{% endif %}
 					</div>
 				</div>
-            {% else %}
-                <p class="alert alert-warning">No items in the list.</p>
-            {% endif %}
-        </center>
+			{% else %}
+				<p class="alert alert-warning">No items in the list.</p>
+			{% endif %}
+		</center>
 {% endblock content %}

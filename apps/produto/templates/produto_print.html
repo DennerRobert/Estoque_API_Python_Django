@@ -30,26 +30,6 @@
 				aspect-ratio: 352/200;
 				overflow: hidden;
 			}
-			.square {
-				width: 42.857%;
-				aspect-ratio: 1;
-				background: white;
-				border-radius: 15px;
-				transform: rotate(45deg);
-				top: 11.5%;
-				position: absolute;
-				left: 3%;
-				z-index: 1;
-				display: grid;
-				place-items: center;
-			}
-			.square::before {
-				content: "";
-				width: 50%;
-				aspect-ratio: 1;
-				background: #151618;
-				position: absolute;
-			}
 		}
 	</style>
 </head>
@@ -64,9 +44,6 @@
 	<span>
 		Date: {{ date }}
 	</span>
-	<div class="dd">
-		<div class="square"></div>
-	</div>
 	<table>
 		<thead>
 			<tr>
