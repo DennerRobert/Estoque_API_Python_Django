@@ -104,16 +104,19 @@
 				<form class="search" method="GET" action="">
 					<input type="text" name="q" id="id_search" placeholder="Search products..." value="{{ request.GET.q }}">
 					<button type="submit" class="btn btn-outline-info" style="margin-top: -3px;">Search</button>
-					<a href="{% url 'produto:produto_print_atual' %}?{% if request.GET.q %}q={{ request.GET.q }}{% endif %}" class="btn btn-outline-info" style="margin-top: -3px; margin-left: 50px;" target="_blank">Print list</a>
-					<a href="{% url 'produto:produto_print_todos' %}" class="btn btn-outline-info" style="margin-top: -3px;" target="_blank">Print complete list</a>
-					<a href="{% url 'produto:produto_excel_todos' %}" class="btn btn-outline-info" style="margin-top: -3px;">Complete list for Excel</a>
+					{% if produtos %}
+						<a href="{% url 'produto:produto_print_atual' %}?{% if request.GET.q %}q={{ request.GET.q }}{% endif %}" class="btn btn-outline-info" style="margin-top: -3px; margin-left: 50px;" target="_blank">Print list</a>
+						<a href="{% url 'produto:produto_print_todos' %}" class="btn btn-outline-info" style="margin-top: -3px;" target="_blank">Print complete list</a>
+						<a href="{% url 'produto:produto_excel_todos' %}" class="btn btn-outline-info" style="margin-top: -3px;">Complete list for Excel</a>
+					{% endif %}
+
 				</form>
 			</div>
 			{% if produtos %}
 				<table>
 					<thead>
 						<tr>
-							<th>#</th>
+							<!-- <th>#</th> -->
 							<th>Product</th>
 							<th>Price</th>
 							<th class="text-center">Stock</th>
@@ -124,7 +127,7 @@
 					<tbody>
 						{% for object in object_list %}
 							<tr>
-								<td>{{ forloop.counter }}</td>
+								<!-- <td>{{ object.id }}</td> -->
 								<!-- <td>{{ forloop.counter }}</td> -->
 								<td>{{ object.produto }}</td>
 								<td>{{ object.preco }}</td>
