@@ -31,7 +31,12 @@ ok - Campo de busca
 
 ok - Paginação das listagens (Produtos, Entradas e Saídas)
 
+ok - Gerar relatório de Produtos
 
-- Gerar relatórios das listagens 
-- Verificar funcionalidade por API
+ok - Realatório tambem em Excel
+
+ok - Funcionalidade por API
+
+ok - Script para adicionar e remover itens
+
 - Dockerização.
