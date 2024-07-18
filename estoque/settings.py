@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 import decouple
 import dj_database_url
+from decouple import config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -78,9 +79,31 @@ WSGI_APPLICATION = 'estoque.wsgi.application'
 
 DATABASES = {
     'default': decouple.config('DATABASE_URL',
-        default="postgres://postgres:robert@localhost:5432/estoque",
+        default="postgres://robert:robert@localhost:5432/estoque",
         cast=dj_database_url.parse)
 }
+
+# }
+# Configuração para desenvolvimento local
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'estoque',
+#         'USER': 'postgres',
+#         'PASSWORD': 'robert',
+#         'HOST': 'db',  # Nome do serviço no Docker Compose
+#         'PORT': '5432',
+#     }
+# }
+
+# Configuração para produção usando variáveis de ambiente
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=config('DATABASE_URL', default='postgres://postgres:robert@db:5432/estoque')
+#     )
+}
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

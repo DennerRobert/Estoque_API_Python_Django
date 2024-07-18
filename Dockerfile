@@ -7,6 +7,10 @@ ADD . /webapps/
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 libsqlite3-dev
 # RUN pip install -U pip setuptools
+
+COPY wait-for-it.sh /webapps/
+RUN chmod +x /webapps/wait-for-it.sh
+
 COPY requirements.txt /webapps/
 RUN pip install --upgrade pip
 RUN pip install -r /webapps/requirements.txt

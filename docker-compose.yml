@@ -1,29 +1,29 @@
-version: '3.3'
+version: '3'
 
 services:
-  # Postgres
   db:
     image: postgres:12
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/data
     ports:
-      - "7999:5432"
+      - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=robert
       - POSTGRES_DB=estoque
 
   web:
     build: .
-    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000" 
+    command: bash -c "./wait-for-it.sh db 5432 python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/webapps
     ports:
       - "8000:8000"
-    links:
-      - db
     depends_on:
       - db
-      
+    environment:
+      - DEBUG=1
+      - DATABASE_URL=postgres://postgres:robert@db:5432/estoque
+
 volumes:
   postgres_data:
