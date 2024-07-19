@@ -41,8 +41,10 @@ class ProductListView(ListView):
 	def get_queryset(self, **kwargs):
 		queryset = super().get_queryset()
 		query = self.request.GET.get('q')
+		
 		if query:
 			queryset = queryset.filter(product__icontains=query)
+		
 		return queryset.filter(active=True).order_by('product')
 
 
@@ -110,6 +112,7 @@ class ProductViewSet(viewsets.ViewSet):
 
 	def create(self, request):
 		serializer = ProductSerializer(data=request.data)
+		
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=201)
@@ -120,6 +123,7 @@ class ProductViewSet(viewsets.ViewSet):
 		try:
 			products = Products.objects.get(pk=pk)
 			serializer = ProductSerializer(products, data=request.data)
+			
 			if serializer.is_valid():
 				serializer.save()
 				# return Response(serializer.data, status=status.HTTP_200_OK)
@@ -139,6 +143,7 @@ class ProductViewSet(viewsets.ViewSet):
 		# return Response(status=status.HTTP_204_NO_CONTENT)
 		return Response(status=201)
 	
+
 # print product list
 class ProductPrintCurrentView(ListView):
 	model = Products
@@ -150,8 +155,10 @@ class ProductPrintCurrentView(ListView):
 		queryset = super().get_queryset()
 		# filtro com base na query atual
 		query = self.request.GET.get('q')
+		
 		if query:
 			queryset = queryset.filter(active=True, product__icontains=query)
+		
 		return queryset
 	
 	def get_context_data(self, **kwargs):
@@ -164,6 +171,7 @@ class ProductPrintCurrentView(ListView):
 		date = datetime.now().strftime('%d-%m-%Y - %H:%M')
 		ctx['user']	= user 
 		ctx['date']	= date 
+		
 		return ctx
 
 
@@ -201,8 +209,10 @@ class ExportProductExcelView(ListView):
 	def get_queryset(self):
 		queryset = super().get_queryset()
 		query = self.request.GET.get('q')
+		
 		if query:
 			queryset = queryset.filter(product__icontains=query)
+		
 		return queryset
 
 	def export_to_excel(self, queryset, filename):
@@ -226,6 +236,7 @@ class ExportProductExcelView(ListView):
 		response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
 		response['Content-Disposition'] = f'attachment; filename={filename}.xlsx'
 		workbook.save(response)
+		
 		return response
 
 
@@ -233,4 +244,5 @@ class ExportProductExcelView(ListView):
 class ProductExcelAllView(ExportProductExcelView):
 	def get(self, request, *args, **kwargs):
 		queryset = Products.objects.filter(active=True)
+		
 		return self.export_to_excel(queryset, 'complete_products')

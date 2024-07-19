@@ -12,53 +12,53 @@ from django.core.paginator import Paginator
 
 # Listar todos os itens do estoque
 class StockEntryListView(ListView):
-    raise_exception = True
-    model = Inventory
-    template_name = 'stock_entry_list.html'
-    context_object_name = 'entries'
-    paginate_by = 10
+	raise_exception = True
+	model = Inventory
+	template_name = 'stock_entry_list.html'
+	context_object_name = 'entries'
+	paginate_by = 10
 
-    # Filtrar apenas as entradas
-    def get_queryset(self, **kwargs):
-        return Inventory.objects.filter(movement='e')
+	# Filtrar apenas as entradas
+	def get_queryset(self, **kwargs):
+		return Inventory.objects.filter(movement='e')
 
-    # Páginação do resultado
-    def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        ctx['title'] = 'Stock Entries'
+	# Páginação do resultado
+	def get_context_data(self, **kwargs):
+		ctx = super().get_context_data(**kwargs)
+		ctx['title'] = 'Stock Entries'
 
-        entries = Inventory.objects.filter(movement='e')
-        paginator = Paginator(entries, self.paginate_by)
-        page_number = self.request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-        ctx['entries'] = page_obj
+		entries = Inventory.objects.filter(movement='e')
+		paginator = Paginator(entries, self.paginate_by)
+		page_number = self.request.GET.get('page')
+		page_obj = paginator.get_page(page_number)
+		ctx['entries'] = page_obj
 
-        return ctx
+		return ctx
 	
 
 # Criar um formulário para adicionar entradas de produtos ao estoque
 class StockEntryCreateView(CreateView):
-    template_name = 'stock_entry_form.html'
-    model = Inventory
-    form_class = InventoryForm
-    success_message = 'Product added successfully'
+	template_name = 'stock_entry_form.html'
+	model = Inventory
+	form_class = InventoryForm
+	success_message = 'Product added successfully'
 
-    # Pegar os dados do formulário e preencher o formulário
-    def get_context_data(self, **kwargs):
-        ctx = super(StockEntryCreateView, self).get_context_data(**kwargs)
-        ctx['title'] = 'Stock Entries'
-        return ctx
+	# Pegar os dados do formulário e preencher o formulário
+	def get_context_data(self, **kwargs):
+		ctx = super(StockEntryCreateView, self).get_context_data(**kwargs)
+		ctx['title'] = 'Stock Entries'
+		return ctx
 
-    #  Salvar os dados do formulário
-    def form_valid(self, form):
-        if form.is_valid():
-            stock_entry = form.save(commit=False)
-            stock_entry.movement = 'e'
-            stock_entry.employee = self.request.user
-            stock_entry.save()
-            return redirect('estoque_produtos:stock_update', pk=stock_entry.pk)
-        else:
-            print('Error', self.request.user)
+	#  Salvar os dados do formulário
+	def form_valid(self, form):
+		if form.is_valid():
+			stock_entry = form.save(commit=False)
+			stock_entry.movement = 'e'
+			stock_entry.employee = self.request.user
+			stock_entry.save()
+			return redirect('estoque_produtos:stock_update', pk=stock_entry.pk)
+		else:
+			print('Error', self.request.user)
 
 
 # Atualizar um formulário para adicionar entradas/saídas de produtos ao estoque
@@ -164,6 +164,7 @@ class StockOutputCreateView(CreateView):
 	def get_context_data(self, **kwargs):
 		ctx = super(StockOutputCreateView, self).get_context_data(**kwargs)
 		ctx['title'] = 'Stock Exits'
+		
 		return ctx
 	
 	# Salvar os dados do formulário
@@ -172,6 +173,7 @@ class StockOutputCreateView(CreateView):
 		stock_output.movement = 's'
 		stock_output.employee = self.request.user
 		stock_output.save()
+		
 		return redirect('estoque_produtos:stock_update', pk=stock_output.pk)
 
 
@@ -179,6 +181,7 @@ class StockOutputCreateView(CreateView):
 def produto_saldo(request, produto_id):
 	produto = Products.objects.filter(id = produto_id).first()
 	saldo_disponivel = produto.price
+	
 	return JsonResponse({'saldo_disponivel': saldo_disponivel})
 
 

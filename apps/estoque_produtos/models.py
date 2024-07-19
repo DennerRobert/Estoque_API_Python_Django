@@ -25,7 +25,6 @@ class InventoryItems(models.Model):
 	quantity = models.PositiveIntegerField()
 	balance = models.FloatField()
 
-
 	class Meta:
 		ordering = ('pk',)
 
