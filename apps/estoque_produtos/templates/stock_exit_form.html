@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap3 %}
+{% load bootstrap %}
+
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+{% block styles %}
+	<style>
+		.box1 {
+			/* background-color: #45e6b581;  */
+			background-color: #f1f4fc44; 
+			width: 20%; 
+			min-width: 385px; 
+			min-height:500px; 
+			height: 200px; 
+			border-radius: 10px;
+			margin-left: 40%;
+			margin-top: 5%;
+		}
+		.col-md-3 {
+			font-weight: bold;
+			color: white; 
+			text-align: center; 
+			margin-left: 10%; 
+			margin-top: 20px;
+			width: 300px;
+		}
+		.Invoice{
+			width: 80%;
+			font-size: 150%;
+			color: white; 
+			font-weight: bold;
+			text-align: left; 
+			margin-left: 10%; 
+			margin-top: 40px;
+		}
+		.btns{
+			font-size: 200%;
+			font-weight: bold;
+			margin-top: 80px;
+		}
+		.title{
+			background-color: white; 
+			border-radius: 10px;
+			color: black;
+		}
+			.select2-container--default .select2-selection--single {
+			height: 40px;  /* Ajuste para o tamanho desejado */
+		}
+		.table{
+			width: 100%; 
+			table-layout: fixed;
+			margin-top: 50px;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+    <div class="box1">
+        <center>
+            <div class="title">
+                <h2 style="font-weight: bold;">{{ title }}</h2>
+            </div>
+        </center>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div>
+                <div class="Invoice">
+                    <label>Invoice</label>
+                    {% bootstrap_field form.invoice_number show_label=false %}
+                </div>
+            
+                {% if object %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: -10px;"></th>
+                                <th style="width: 200px; margin-left: -10px;">Product</th>
+                                <th style="width: 80px;">Amount</th>
+                                <th style="width: 100px;">Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% bootstrap_form estoque_itens_formset.management_form %}
+                            {% for form in estoque_itens_formset %}
+                            <tr class="estoque_itens_formset">
+                                <td>{% bootstrap_field form.id show_label=False %}</td>
+                                <td>{% bootstrap_field form.product show_label=False %}</td>
+                                <td>{% bootstrap_field form.quantity show_label=False %}</td>
+                                <td>{% bootstrap_field form.balance show_label=False %}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+                <center>
+                    <div class="btns">
+                        <input type="submit" class="btn btn-outline-primary text-center fs-5" style="color:white; font-weight: bold" value="Register">
+                    </div>
+                </center>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
+{% block scripts %}
+<script>
+	// select2 no campo de pruduto do formset 
+    $(document).ready(function() {
+        $('#id_inventoryitems_set-0-product').select2();
+    });
+</script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		// Função para buscar o saldo do produto e atualizar o campo de saldo
+		function buscarSaldoProduto(produtoId, quantidade, saldoField) {
+			fetch(`/estoque/estoque_produtos/${produtoId}/saldo/`)
+				.then(response => {
+					if (!response.ok) {
+						throw new Error('Erro ao buscar saldo do produto');
+					}
+					return response.text();
+				})
+				.then(text => {
+					const data = JSON.parse(text);
+					saldoField.value = data.saldo_disponivel * quantidadeField.value;
+				})
+				.catch(error => {
+					console.error('Erro ao buscar saldo do produto2:', error);
+				});
+		}
+	
+		// pegar os elementos respectivos
+		const produtoField = document.getElementById('id_inventoryitems_set-0-product');
+		const quantidadeField = document.getElementById('id_inventoryitems_set-0-quantity');
+		const saldoField = document.getElementById('id_inventoryitems_set-0-balance');
+	
+		// Event listener // mudar o campo relacionado com troca de produto
+		produtoField.addEventListener('change', function() {
+			const produtoId = produtoField.value;
+			const quantidade = quantidadeField.value;
+	
+			buscarSaldoProduto(produtoId, quantidade, saldoField);
+		});
+	
+		// Event listener // mudar o campo relacionado com troca de quantidade
+		quantidadeField.addEventListener('input', function() {
+			const produtoId = produtoField.value;
+			const quantidade = quantidadeField.value;
+	
+			buscarSaldoProduto(produtoId, quantidade, saldoField);
+		});
+	
+		// Chamar a função inicialmente ao carregar a página para configurar o saldo inicial
+		const initialProdutoId = produtoField.value;
+		const initialQuantidade = quantidadeField.value;
+		buscarSaldoProduto(initialProdutoId, initialQuantidade, saldoField);
+	});
+	</script>	
+{% endblock %}

@@ -1,8 +1,8 @@
 from django import forms
-from .models import Produtos
+from .models import Products
 
-class ProdutosForm(forms.ModelForm):
+class ProductsForm(forms.ModelForm):
 	class Meta:
-		model = Produtos
-		fields = ('produto', 'preco', 'estoque')
-		exclude = ('id', 'estoque')
+		model = Products
+		fields = ('product', 'price', 'inventory')
+		exclude = ('id', 'inventory')

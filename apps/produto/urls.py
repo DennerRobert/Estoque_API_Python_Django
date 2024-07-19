@@ -2,25 +2,25 @@ from django.urls import path
 from apps.produto import views
 
 # api produto
-from .views import ProdutoExcelTodosView, ProdutoViewSet
+from .views import ProductExcelAllView, ProductViewSet
 
 
-app_name = 'produto'
+app_name = 'product'
 
 urlpatterns = [
-	path('', views.ProdutoListView.as_view(), name='produto_list'),
-	path('add/', views.ProdutoAddView.as_view(), name='produto_add'),
-	path('<int:pk>/edit/', views.ProdutoEditView.as_view(), name='produto_edit'),
-	path('<int:pk>/del/', views.DispostivosDeleteAjax.as_view(), name='produto_delete'),
+	path('', views.ProductListView.as_view(), name='product_list'),
+	path('add/', views.ProductAddView.as_view(), name='product_add'),
+	path('<int:pk>/edit/', views.ProductEditView.as_view(), name='product_edit'),
+	path('<int:pk>/del/', views.ProductDeleteAjax.as_view(), name='product_delete'),
 
-	path('produtos/imprimir_atual/', views.ProdutoPrintAtualView.as_view(), name='produto_print_atual'),
-	path('produtos/imprimir_todos/', views.ProdutoPrintTodosView.as_view(), name='produto_print_todos'),
+	path('products/print_current/', views.ProductPrintCurrentView.as_view(), name='product_print_current'),
+	path('products/print_all/', views.ProductPrintAllView.as_view(), name='product_print_all'),
 
-    path('export/excel/todos/', ProdutoExcelTodosView.as_view(), name='produto_excel_todos'),
+    path('export/excel/all/', ProductExcelAllView.as_view(), name='product_excel_all'),
     
 	# api produto
-	path('listar_produto/', ProdutoViewSet.as_view({'get': 'list'}), name='listar_produto'),
-	path('adicionar_produto/', ProdutoViewSet.as_view({'post': 'create'}), name='adicionar_produto'),
-	path('editar_produto/<int:pk>/', ProdutoViewSet.as_view({'patch': 'update'}), name='editar_produto'),
-	path('deletar_produto/<int:pk>/', ProdutoViewSet.as_view({'delete': 'destroy'}), name='deletar_produto'),
+	path('list_product/', ProductViewSet.as_view({'get': 'list'}), name='list_product'),
+	path('add_product/', ProductViewSet.as_view({'post': 'create'}), name='add_product'),
+	path('edit_product/<int:pk>/', ProductViewSet.as_view({'patch': 'update'}), name='edit_product'),
+	path('delete_product/<int:pk>/', ProductViewSet.as_view({'delete': 'destroy'}), name='delete_product'),
 ]

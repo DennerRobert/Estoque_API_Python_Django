@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Product List - Print</title>
+		<style>
+			@media print {
+				body {
+					font-family: Arial, sans-serif;
+					margin: 20px;
+				}
+				table {
+					width: 100%;
+					border-collapse: collapse;
+					margin-top: 50px;
+				}
+				th, td {
+					border: 1px solid black;
+					padding: 8px;
+					text-align: left;
+				}
+				th {
+					background-color: #f2f2f2;
+				}
+				.dd {
+					margin-top: 0px;
+					margin-left: 30px;
+					position: relative;
+					width: 120px;
+					aspect-ratio: 352/200;
+					overflow: hidden;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<center>
+			<h1>Product List</h1>
+		</center>
+		<span>
+			Requested by: {{ user.username|upper }}
+		</span>
+		<br>
+		<span>
+			Date: {{ date }}
+		</span>
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Product</th>
+					<th>Price</th>
+					<th>Stock</th>
+					<th>Total Value</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for product in products %}
+					<tr>
+						<td>{{ forloop.counter }}</td>
+						<td>{{ product.product|upper }}</td>
+						<td>{{ product.price }}</td>
+						<td>{{ product.inventory }}</td>
+						<td>$ {{ product.total_value|default:"0" }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<script>
+			window.onload = function() {
+				window.print();
+			};
+		</script>
+	</body>
+</html>

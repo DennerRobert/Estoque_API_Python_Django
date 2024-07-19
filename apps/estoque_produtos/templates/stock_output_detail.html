@@ -26,7 +26,7 @@
 			font-weight: bold;
 		}
 		.sub{
-			background-color: #585e5e81; 
+			background-color: #17a2b8; 
 			border-radius: 10px;
 			color: white;
 			margin-top: 20px;
@@ -64,10 +64,10 @@
 			<p class="sub1">{{ user|upper }}</p>
 			
 			<h3 class="sub">Invoice</h3>
-			<p class="sub1">{{ nf }}</p>
+			<p class="sub1">{{ invoice_number }}</p>
 			
 			<h3 class="sub">Movement</h3>
-			{% if movimentacao == 'e' %}
+			{% if movement == 'e' %}
 				<p class="sub1">Inbound movement</p>
 			{% else %}
 				<p class="sub1">Exit movement</p>
@@ -78,7 +78,7 @@
 			<form method="post">
 				{% csrf_token %}
 				{{ formset.management_form }}
-				<table class="table" style="width: 100%; table-layout: fixed;">
+				<table class="table" style="width: 100%; table-layout: fixed; background-color: #17a2b8; color: white	;">
 					<thead>
 						<th style="width: 200px;">PRODUCT</th>
 						<th>AMOUNT</th>       
@@ -88,14 +88,14 @@
 						{% for form in formset %}
 						<tr>
 							<td><input type="text" id="{{ form.produto.id_for_label }}" name="{{ form.produto.html_name }}" value="{{ produto_nome }}" disabled class="form-control"></td>
-							<td><input type="text" id="{{ form.quantidade.id_for_label }}" name="{{ form.quantidade.html_name }}" value="{{ form.quantidade.value }}" disabled class="form-control"></td>
-							<td><input type="text" id="{{ form.saldo.id_for_label }}" name="{{ form.saldo.html_name }}" value="{{ form.saldo.value }}" disabled class="form-control"></td>
+							<td><input type="text" id="{{ form.quantity.id_for_label }}" name="{{ form.quantity.html_name }}" value="{{ form.quantity.value }}" disabled class="form-control"></td>
+							<td><input type="text" id="{{ form.balance.id_for_label }}" name="{{ form.balance.html_name }}" value="{{ form.balance.value|floatformat:2 }}" disabled class="form-control"></td>
 						</tr>
 						{% endfor %}
 					</tbody>
 				</table>
 			</form>
-			<a href="{% url 'estoque_produtos:estoque_entrada_list' %}" style="color:white; font-weight: bold" class="btn btn-outline-danger text-center fs-5">Back</a><br>
+			<a href="{% url 'estoque_produtos:stock_output_list' %}" style="color:white; font-weight: bold" class="btn btn-outline-danger text-center fs-5">Back</a><br>
 		</div>
 	</center>
 {% endblock %}

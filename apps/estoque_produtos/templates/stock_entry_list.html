@@ -3,7 +3,7 @@
 {% load bootstrap3 %}
 
 {% block title %}
-    Stock Exit
+    {{ title }}
 {% endblock %}
 
 {% block styles %}
@@ -48,10 +48,11 @@
 			color: black;
 			font-weight: bold;
 			width: 23%;
+			overflow-x: auto; /* barra de rolagem horizontal */
+			white-space: nowrap; /* n quebra para a próxima linha */
 			padding: 10px;
 			border-radius: 5px;
 			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-			overflow: hidden;
 		}
 
 		.pagination-container {
@@ -80,10 +81,9 @@
 		}
 
 		.pagination .btn-outline-info {
-			color: #007bff;
+			color: #007bff; 
 			border-color: #007bff;
 		}
-
 		.current {
 			margin: 0 auto;
 			text-align: center;
@@ -97,13 +97,13 @@
 {% block content %}
 		<center>
 			<div class="title">
-				<h2>Stock Exit
+				<h2>Stock Entry
 					<span>
-						<a style="margin-bottom: 4px;" class="btn btn-outline-primary text-center fs-5" href="{% url 'estoque_produtos:estoque_saida' %}"> + Add</a>
+						<a style="margin-bottom: 4px;" class="btn btn-outline-primary text-center fs-5" href="{% url 'estoque_produtos:stock_entry_add' %}"> + Add </a>
 					</span>
 				</h2>
 			</div>
-
+			
 			{% if object_list %}
 				<table>
 					<thead>
@@ -118,38 +118,38 @@
 					<tbody>
 						{% for object in object_list %}
 							<tr>
-								<td><a href="{% url 'estoque_produtos:estoque_entrada_up' pk=object.pk %}" class="btn-outline-info">{{ object }}</a></td>
-                                <td><a href="{% url 'estoque_produtos:detail_estoque_saida' pk=object.pk %}" class="btn-outline-info">View</a></td>
-								<td>{{ object.nf }}</td>
+								<td><a href="{% url 'estoque_produtos:stock_update' pk=object.pk %}"  class="btn-outline-info">{{ object }}</a></td>
+								<td><a href="{% url 'estoque_produtos:stock_entry_detail' pk=object.pk %}"  class="btn-outline-info">View</a></td>
+								<td>{{ object.invoice_number }}</td>
 								<td>{{ object.created|date:'d/m/Y' }}</td>
-								<td>{{ object.funcionario.username }}</td>
+								<td>{{ object.employee.username }}</td>
 							</tr>
 						{% endfor %}
 					</tbody>
 				</table>
 				<div class="pagination">
 					<div class="pagination-container" style="display: flex; justify-content: center; align-items: center;">
-						{% if saida.has_previous %}
+						{% if entries.has_previous %}
 							<a href="?page=1" class="btn-outline-info">&laquo; First</a>
-							<a href="?page={{ saida.previous_page_number }}" class="btn-outline-info" style="margin-left: 5px;">Previous</a>
+							<a href="?page={{ entries.previous_page_number }}" class="btn-outline-info" style="margin-left: 5px;">Previous</a>
 						{% else %}
 							<div class="spacer"></div>
 							<div class="spacer"></div>
 						{% endif %}
 				
-						{% if not saida.has_previous and not saida.has_next %}
+						{% if not entries.has_previous and not entries.has_next %}
 							<span class="current" style="margin: 0 auto; color: black;">
-								Page {{ saida.number }} of {{ saida.paginator.num_pages }}.
+								Page {{ entries.number }} of {{ entries.paginator.num_pages }}.
 							</span>
 						{% else %}
 							<span class="current" style="margin-left: 5px; color: black;">
-								Page {{ saida.number }} of {{ saida.paginator.num_pages }}.
+								Page {{ entries.number }} of {{ entries.paginator.num_pages }}.
 							</span>
 						{% endif %}
 				
-						{% if saida.has_next %}
-							<a href="?page={{ saida.next_page_number }}" class="btn-outline-info" style="margin-left: 5px;">Next</a>
-							<a href="?page={{ saida.paginator.num_pages }}" class="btn-outline-info" style="margin-left: 5px;">Last &raquo;</a>
+						{% if entries.has_next %}
+							<a href="?page={{ entries.next_page_number }}" class="btn-outline-info" style="margin-left: 5px;">Next</a>
+							<a href="?page={{ entries.paginator.num_pages }}" class="btn-outline-info" style="margin-left: 5px;">Last &raquo;</a>
 						{% endif %}
 					</div>
 				</div>

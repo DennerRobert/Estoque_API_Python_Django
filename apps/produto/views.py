@@ -1,6 +1,6 @@
 from datetime import datetime
-from apps.produto.forms import ProdutosForm
-from .models import Produtos
+from apps.produto.forms import ProductsForm
+from .models import Products
 from django.views.generic import UpdateView, View, ListView, CreateView
 from django.shortcuts import redirect
 from django.contrib import messages
@@ -11,30 +11,30 @@ from django.http import HttpResponse
 
 # api produto
 # from rest_framework.generics import CreateAPIView
-from .serializers import ProdutoSerializer
+from .serializers import ProductSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 
 
-class ProdutoListView(ListView):
-	model = Produtos
-	template_name = 'produtos_list.html'
-	context_object_name = 'produtos'
+class ProductListView(ListView):
+	model = Products
+	template_name = 'product_list.html'
+	context_object_name = 'products'
 	paginate_by = 10
 
 	def get_context_data(self, **kwargs):
-		ctx = super(ProdutoListView, self).get_context_data(**kwargs)
+		ctx = super(ProductListView, self).get_context_data(**kwargs)
 		ctx['query'] = self.request.GET.get('q', '')
 
-		for produto in ctx['produtos']:
-			produto.valor_total = produto.estoque * produto.preco
+		for product in ctx['products']:
+			product.total_value = product.inventory * product.price
 
-		produtos = Produtos.objects.filter(ativo=True)
-		paginator = Paginator(produtos, self.paginate_by)
+		products = Products.objects.filter(active=True)
+		paginator = Paginator(products, self.paginate_by)
 		page_number = self.request.GET.get('page')
 		page_obj = paginator.get_page(page_number)
-		ctx['produtos'] = page_obj
+		ctx['products'] = page_obj
 
 		return ctx
 
@@ -42,35 +42,36 @@ class ProdutoListView(ListView):
 		queryset = super().get_queryset()
 		query = self.request.GET.get('q')
 		if query:
-			queryset = queryset.filter(produto__icontains=query)
-		return queryset.filter(ativo=True).order_by('produto')
+			queryset = queryset.filter(product__icontains=query)
+		return queryset.filter(active=True).order_by('product')
 
 
-class ProdutoAddView(CreateView):
-	template_name ='produtos_form.html'
-	model = Produtos
-	form_class = ProdutosForm
-	success_message = 'Produtos adicionado com sucesso'
+
+class ProductAddView(CreateView):
+	template_name = 'product_form.html'
+	model = Products
+	form_class = ProductsForm
+	success_message = 'Product added successfully'
 
 	def get_context_data(self, **kwargs):
-		ctx = super(ProdutoAddView, self).get_context_data(**kwargs)
+		ctx = super(ProductAddView, self).get_context_data(**kwargs)
 		ctx['title'] = 'Product Registration'
 		return ctx
 
 	def form_valid(self, form):
-		produtos_form = form.save(commit=False)
-		produtos_form.ativo = True
-		produtos_form.produto = produtos_form.produto
-		produtos_form.preco = produtos_form.preco
-		produtos_form.estoque = 0
-		produtos_form.save()
+		product_form = form.save(commit=False)
+		product_form.active = True
+		product_form.product = product_form.product
+		product_form.price = product_form.price
+		product_form.inventory = 0
+		product_form.save()
 		
-		return redirect('produto:produto_list')
+		return redirect('product:product_list')
 
-class ProdutoEditView(UpdateView):
-	model = Produtos
-	template_name = 'produtos_form.html'
-	form_class = ProdutosForm
+class ProductEditView(UpdateView):
+	model = Products
+	template_name = 'product_form.html'
+	form_class = ProductsForm
 
 	def get_context_data(self, **kwargs):
 		ctx = super().get_context_data(**kwargs)
@@ -78,36 +79,37 @@ class ProdutoEditView(UpdateView):
 		return ctx
 	
 	def form_valid(self, form):
-		produto = form.save()
-		return redirect('produto:produto_list')
+		product = form.save()
+		return redirect('product:product_list')
+
 	
 
-class DispostivosDeleteAjax(View):
+class ProductDeleteAjax(View):
 	def get(self, request, pk):
-		remove_produto = Produtos.objects.filter(pk=pk).first()
+		remove_product = Products.objects.filter(pk=pk).first()
 
-		if remove_produto:
-			remove_produto.ativo = False
-			remove_produto.save()
-			messages.success(self.request, self.success_message)  
+		if remove_product:
+			remove_product.active = False
+			remove_product.save()
 		else:
-			messages.success(self.request, self.error_message) 
+			messages.error(self.request, self.error_message) 
 
-		return redirect('produto:produto_list') 
+		return redirect('product:product_list')
+
 	
+# api produto
+class ProductViewSet(viewsets.ViewSet):
 
-class ProdutoViewSet(viewsets.ViewSet):
-
-	serializer_class = ProdutoSerializer
+	serializer_class = ProductSerializer
 
 	def list(self, request):
-		produtos = Produtos.objects.all()
-		serializer = ProdutoSerializer(produtos, many=True)
+		products = Products.objects.all()
+		serializer = ProductSerializer(products, many=True)
 		return Response(serializer.data)
 	
 
 	def create(self, request):
-		serializer = ProdutoSerializer(data=request.data)
+		serializer = ProductSerializer(data=request.data)
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data, status=201)
@@ -116,8 +118,8 @@ class ProdutoViewSet(viewsets.ViewSet):
 
 	def update(self, request, pk=None):
 		try:
-			produto = Produtos.objects.get(pk=pk)
-			serializer = ProdutoSerializer(produto, data=request.data)
+			products = Products.objects.get(pk=pk)
+			serializer = ProductSerializer(products, data=request.data)
 			if serializer.is_valid():
 				serializer.save()
 				# return Response(serializer.data, status=status.HTTP_200_OK)
@@ -126,22 +128,22 @@ class ProdutoViewSet(viewsets.ViewSet):
 				# return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 				return Response(serializer.errors, status=400)
 			
-		except produto.DoesNotExist:
+		except products.DoesNotExist:
 			return Response(status=400)
 		
 
 	def destroy(self, request, pk, format=None):
-		produto = Produtos.objects.get(pk=pk)
-		produto.ativo = False
-		produto.save()
+		products = Products.objects.get(pk=pk)
+		products.active = False
+		products.save()
 		# return Response(status=status.HTTP_204_NO_CONTENT)
 		return Response(status=201)
-    
+	
 # print product list
-class ProdutoPrintAtualView(ListView):
-	model = Produtos
-	template_name = 'produto_print.html'
-	context_object_name = 'produtos'
+class ProductPrintCurrentView(ListView):
+	model = Products
+	template_name = 'product_print.html'
+	context_object_name = 'products'
 	paginate_by = 10
 
 	def get_queryset(self):
@@ -149,14 +151,14 @@ class ProdutoPrintAtualView(ListView):
 		# filtro com base na query atual
 		query = self.request.GET.get('q')
 		if query:
-			queryset = queryset.filter(produto__icontains=query)
+			queryset = queryset.filter(active=True, product__icontains=query)
 		return queryset
 	
 	def get_context_data(self, **kwargs):
 		ctx = super().get_context_data(**kwargs)
 		# cálculo do valor total do estoque no contexto
-		for produto in ctx['produtos']:
-			produto.valor_total = produto.estoque * produto.preco
+		for product in ctx['products']:
+			product.valor_total = product.inventory * product.price
 
 		user = self.request.user
 		date = datetime.now().strftime('%d-%m-%Y - %H:%M')
@@ -164,50 +166,60 @@ class ProdutoPrintAtualView(ListView):
 		ctx['date']	= date 
 		return ctx
 
-class ProdutoPrintTodosView(ListView):
-	model = Produtos
-	template_name = 'produto_print.html'
-	context_object_name = 'produtos'
+
+# print product list - todos os itens
+class ProductPrintAllView(ListView):
+	model = Products
+	template_name = 'product_print.html'
+	context_object_name = 'products'
 	paginate_by = None
 
+	def get_queryset(self):
+		queryset = super().get_queryset()
+		queryset = queryset.filter(active=True)
+
+		return queryset
+	
 	def get_context_data(self, **kwargs):
 		ctx = super().get_context_data(**kwargs)
 
-		for produto in ctx['produtos']:
-			produto.valor_total = produto.estoque * produto.preco
+		for product in ctx['products']:
+			product.valor_total = product.inventory * product.price
 
 		user = self.request.user
 		date = datetime.now().strftime('%d-%m-%Y - %H:%M')
 		ctx['user']	= user 
 		ctx['date']	= date 
+		
 		return ctx
 	
-# print product list - xlsx
-class ExportProdutoExcelView(ListView):
-	model = Produtos
+
+# exportar para excel
+class ExportProductExcelView(ListView):
+	model = Products
 
 	def get_queryset(self):
 		queryset = super().get_queryset()
 		query = self.request.GET.get('q')
 		if query:
-			queryset = queryset.filter(produto__icontains=query)
+			queryset = queryset.filter(product__icontains=query)
 		return queryset
 
 	def export_to_excel(self, queryset, filename):
 		workbook = openpyxl.Workbook()
 		sheet = workbook.active
-		sheet.title = "Produtos"
+		sheet.title = "Products"
 
 		headers = ['ID', 'Product', 'Price', 'Stock', 'Total Balance']
 		sheet.append(headers)
 
-		for index, produto  in enumerate(queryset, start=1):
+		for index, product in enumerate(queryset, start=1):
 			row = [
 				index,
-				produto.produto.upper(),
-				produto.preco,
-				produto.estoque,
-				produto.estoque * produto.preco
+				product.product.upper(),
+				product.price,
+				product.inventory,
+				product.inventory * product.price
 			]
 			sheet.append(row)
 
@@ -217,8 +229,8 @@ class ExportProdutoExcelView(ListView):
 		return response
 
 
-class ProdutoExcelTodosView(ExportProdutoExcelView):
+# exportar para excel todos os itens ativos
+class ProductExcelAllView(ExportProductExcelView):
 	def get(self, request, *args, **kwargs):
-		queryset = Produtos.objects.filter(ativo=True)
-
-		return self.export_to_excel(queryset, 'produtos_completo')
+		queryset = Products.objects.filter(active=True)
+		return self.export_to_excel(queryset, 'complete_products')

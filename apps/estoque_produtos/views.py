@@ -1,225 +1,241 @@
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import UpdateView, ListView, CreateView, DeleteView
-from .models import Estoque
-from .forms import EstoqueForm, EstoqueItensFormSet
+from .forms import InventoryForm, InventoryItemsFormSet, InventoryItemsForm
 from django.shortcuts import redirect
 from django.contrib import messages
-from ..produto.models import Produtos
+from ..produto.models import Products
 from django.http import JsonResponse
 from django.forms import inlineformset_factory
-from .models import Estoque, EstoqueItens
-from .forms import EstoqueForm, EstoqueItensForm
+from .models import Inventory, InventoryItems
 from django.core.paginator import Paginator
 
 
-class EstoqueEntradaList(ListView):
-	raise_exception = True
-	model = Estoque
-	template_name = 'estoque_entrada_list.html'
-	context_object_name = 'entrada'
-	paginate_by = 2
+# Listar todos os itens do estoque
+class StockEntryListView(ListView):
+    raise_exception = True
+    model = Inventory
+    template_name = 'stock_entry_list.html'
+    context_object_name = 'entries'
+    paginate_by = 10
 
-	def get_queryset(self, **kwargs):
-		return Estoque.objects.filter(movimentacao='e')
+    # Filtrar apenas as entradas
+    def get_queryset(self, **kwargs):
+        return Inventory.objects.filter(movement='e')
 
-	def get_context_data(self, **kwargs):
-		ctx = super(EstoqueEntradaList, self).get_context_data(**kwargs)
-		ctx['title'] = 'Stock Entry'
+    # Páginação do resultado
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['title'] = 'Stock Entry'
 
-		entrada = Estoque.objects.filter(movimentacao='e')
-		paginator = Paginator(entrada, self.paginate_by)
-		page_number = self.request.GET.get('page')
-		page_obj = paginator.get_page(page_number)
-		ctx['entrada'] = page_obj
+        entries = Inventory.objects.filter(movement='e')
+        paginator = Paginator(entries, self.paginate_by)
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        ctx['entries'] = page_obj
 
-		return ctx
+        return ctx
+	
 
-class add_estoque(CreateView):
-	template_name ='estoque_entrada_form.html'
-	model = Estoque
-	form_class = EstoqueForm
-	success_message = 'Produtos adicionado com sucesso'
+# Criar um formulário para adicionar entradas de produtos ao estoque
+class StockEntryCreateView(CreateView):
+    template_name = 'stock_entry_form.html'
+    model = Inventory
+    form_class = InventoryForm
+    success_message = 'Product added successfully'
 
-	def get_context_data(self, **kwargs):
-		ctx = super(add_estoque, self).get_context_data(**kwargs)
-		ctx['title'] = 'Stock Entry'
-		return ctx
+    # Pegar os dados do formulário e preencher o formulário
+    def get_context_data(self, **kwargs):
+        ctx = super(StockEntryCreateView, self).get_context_data(**kwargs)
+        ctx['title'] = 'Stock Entry'
+        return ctx
 
-	def form_valid(self, form):
-		if form.is_valid():
-			estoque = form.save(commit=False)
-			estoque.movimentacao = 'e'
-			estoque.funcionario = self.request.user
-			estoque.save()
-			return redirect('estoque_produtos:estoque_entrada_up', pk=estoque.pk)
-		else:
-			print('Error', self.request.user)
+    #  Salvar os dados do formulário
+    def form_valid(self, form):
+        if form.is_valid():
+            stock_entry = form.save(commit=False)
+            stock_entry.movement = 'e'
+            stock_entry.employee = self.request.user
+            stock_entry.save()
+            return redirect('estoque_produtos:stock_update', pk=stock_entry.pk)
+        else:
+            print('Error', self.request.user)
 
-class up_estoque(UpdateView):
-	template_name ='estoque_entrada_form.html'
-	model = Estoque
-	form_class = EstoqueForm
+
+# Atualizar um formulário para adicionar entradas/saídas de produtos ao estoque
+class StockUpdateView(UpdateView):
+	template_name ='stock_entry_form.html'
+	model = Inventory
+	form_class = InventoryForm
 	success_message = 'Produtos atualizados com sucesso'
-
+	# Pegar os dados do formulário e preencher o formulário	
 	def get_context_data(self, **kwargs):
-		ctx = super(up_estoque, self).get_context_data(**kwargs)
+		ctx = super(StockUpdateView, self).get_context_data(**kwargs)
 		if self.object:
-			ctx['estoque_itens_formset'] = EstoqueItensFormSet(instance=self.object)
+			ctx['estoque_itens_formset'] = InventoryItemsFormSet(instance=self.object)
 		else:
-			ctx['estoque_itens_formset'] = EstoqueItensFormSet()
+			ctx['estoque_itens_formset'] = InventoryItemsFormSet()
 		ctx['title'] = 'Stock Update'
 		return ctx
-
+	# Salvar os dados do formulário
 	def form_valid(self, form):
-		estoque = form.save(commit=False)
-		estoque_itens_formset = EstoqueItensFormSet(self.request.POST, instance=estoque)
-
-		if estoque_itens_formset.is_valid():
-			estoque_item_form = estoque_itens_formset.forms[0]
-			estoque_item = estoque_item_form.save(commit=False)
+		stock = form.save(commit=False)
+		stock_items_formset = InventoryItemsFormSet(self.request.POST, instance=stock)
+		# Verificar se todos os formulários estão válidos
+		if stock_items_formset.is_valid():
+			stock_item_form = stock_items_formset.forms[0]
+			stock_item = stock_item_form.save(commit=False)
 			
-			estoque_item_atual = None
-			if estoque_item.id:
-				estoque_item_atual = EstoqueItens.objects.get(id=estoque_item.id)
+			# Atualizar o estoque e os itens
+			stock_item_current  = None
+			if stock_item.id:
+				stock_item_current  = InventoryItems.objects.get(id=stock_item.id)
+			
+			if stock_item_current  and stock_item.product_id != stock_item_current.product_id:
+				old_product = get_object_or_404(Products, id=stock_item_current.product_id)
+				new_product = get_object_or_404(Products, id=stock_item.product_id)
+				
+				if stock.movement == 'e':
+					old_product.inventory -= stock_item_current.quantity
+					new_product.inventory += stock_item.quantity
+				
+				elif stock.movement == 's':
+					old_product.inventory += stock_item_current.quantity
+					new_product.inventory -= stock_item.quantity
 
-			if estoque_item_atual and estoque_item.produto_id != estoque_item_atual.produto_id:
-				produto_antigo = get_object_or_404(Produtos, id=estoque_item_atual.produto_id)
-				produto_novo = get_object_or_404(Produtos, id=estoque_item.produto_id)
-
-				if estoque.movimentacao == 'e':
-					produto_antigo.estoque -= estoque_item_atual.quantidade
-					produto_novo.estoque += estoque_item.quantidade
-				elif estoque.movimentacao == 's':
-					produto_antigo.estoque += estoque_item_atual.quantidade
-					produto_novo.estoque -= estoque_item.quantidade
-
-				produto_antigo.save()
-				produto_novo.save()
+				old_product .save()
+				new_product.save()
 
 			else:
-				for estoque_item_form in estoque_itens_formset:
-					estoque_itens_formset = estoque_item_form.save(commit=False)
-					total_produto = Produtos.objects.filter(id = estoque_itens_formset.produto_id).first()
+				for stock_item_form in stock_items_formset:
+					stock_items_formset = stock_item_form.save(commit=False)
+					total_product = Products.objects.filter(id = stock_items_formset.product_id).first()
 					
-					if total_produto:
-						if estoque.movimentacao == 'e':
-							total_produto.estoque +=  estoque_itens_formset.quantidade
+					if total_product:
+						if stock.movement == 'e':
+							total_product.inventory +=  stock_items_formset.quantity
 						else:
-							total_produto.estoque -=  estoque_itens_formset.quantidade
-						total_produto.save()
+							total_product.inventory -=  stock_items_formset.quantity
+						total_product.save()
 
-					estoque_itens_formset.save()
-			estoque_item.save()
-			estoque.save()
+					stock_items_formset.save()
+			stock_item.save()
+			stock.save()
 
-			if estoque.movimentacao == 'e':
-				return redirect('estoque_produtos:estoque_entrada_list')
+			if stock.movement == 'e':
+				return redirect('estoque_produtos:stock_entry_list')
 			else:
-				return redirect('estoque_produtos:estoque_saida_list')
+				return redirect('estoque_produtos:stock_output_list')
 		else:
-			print('Formset errors:', estoque_itens_formset.errors)
+			print('Formset errors:', stock_items_formset.errors)
 
 		return super().form_invalid(form)
 
-class EstoqueSaidaList(ListView):
+
+# Remover um formulário para dar saída produtos do estoque
+class StockOutputListView(ListView):
 	raise_exception = True
-	model = Estoque
-	template_name = 'estoque_saida_list.html'
-	context_object_name = 'saida'
-	paginate_by = 2
-
+	model = Inventory
+	template_name = 'stock_output_list.html'
+	context_object_name = 'output'
+	paginate_by = 10
+	# Filtrar apenas as saídas
 	def get_queryset(self, **kwargs):
-		return Estoque.objects.filter(movimentacao='s')  
-
+		return Inventory.objects.filter(movement='s')  
+	# Páginação do resultado
 	def get_context_data(self, **kwargs):
-		ctx = super(EstoqueSaidaList, self).get_context_data(**kwargs)
+		ctx = super(StockOutputListView, self).get_context_data(**kwargs)
 		ctx['title'] = 'Stock Exit'
 
-		saida = Estoque.objects.filter(movimentacao='s')
-		paginator = Paginator(saida, self.paginate_by)
+		output = Inventory.objects.filter(movement='s')
+		paginator = Paginator(output, self.paginate_by)
 		page_number = self.request.GET.get('page')
 		page_obj = paginator.get_page(page_number)
-		ctx['saida'] = page_obj
+		ctx['output'] = page_obj
 
 		return ctx 
 
-class del_estoque(CreateView):
-	template_name ='estoque_entrada_form.html'
-	model = Estoque
-	form_class = EstoqueForm
-	success_message = 'Produtos retirado com sucesso'
+class StockOutputCreateView(CreateView):
+	template_name = 'stock_exit_form.html'
+	model = Inventory
+	form_class = InventoryForm
+	success_message = 'Products successfully removed'
 
+	# Pegar os dados do formulário e preencher o formulário	
 	def get_context_data(self, **kwargs):
-		ctx = super(del_estoque, self).get_context_data(**kwargs)
+		ctx = super(StockOutputCreateView, self).get_context_data(**kwargs)
 		ctx['title'] = 'Stock Exit'
 		return ctx
-
+	
+	# Salvar os dados do formulário
 	def form_valid(self, form):
-		estoque = form.save(commit=False)
-		estoque.movimentacao = 's'
-		estoque.funcionario = self.request.user
-		estoque.save()
-		return redirect('estoque_produtos:estoque_entrada_up', pk=estoque.pk)
+		stock_output = form.save(commit=False)
+		stock_output.movement = 's'
+		stock_output.employee = self.request.user
+		stock_output.save()
+		return redirect('estoque_produtos:stock_update', pk=stock_output.pk)
 
-#Atualizar saldo em tela -
+
+# Atualizar saldo em tela
 def produto_saldo(request, produto_id):
-	produto = Produtos.objects.filter(id = produto_id).first()
-	saldo_disponivel = produto.preco
+	produto = Products.objects.filter(id = produto_id).first()
+	saldo_disponivel = produto.price
 	return JsonResponse({'saldo_disponivel': saldo_disponivel})
 
-# detail entry product
-class Detail_stock_entry(ListView):
-	template_name = 'detail_entry_list.html'
-	model = Estoque
-	form_class = EstoqueForm
+
+# Detalhes de entrada de produtos
+class StockEntryDetailView(ListView):
+	template_name = 'stock_entry_detail.html'
+	model = Inventory
+	form_class = InventoryForm
 
 	def get_context_data(self, **kwargs):
-		ctx = super(Detail_stock_entry, self).get_context_data(**kwargs)
+		ctx = super(StockEntryDetailView, self).get_context_data(**kwargs)
 		id = self.kwargs.get('pk')
-		product = Estoque.objects.filter(id=id).first()
+		product = Inventory.objects.filter(id=id).first()
 
-		EstoqueItensFormSet = inlineformset_factory(Estoque, EstoqueItens, form=EstoqueItensForm, extra=0)
+		InventoryItemsFormSet = inlineformset_factory(Inventory, InventoryItems, form=InventoryItemsForm, extra=0)
 
-		ctx['estoque'] = product
-		ctx['user'] = product.funcionario
-		ctx['nf'] = product.nf
-		ctx['movimentacao'] = product.movimentacao
-		ctx['formset'] = EstoqueItensFormSet(instance=product)
+		ctx['product'] = product
+		ctx['user'] = product.employee
+		ctx['invoice_number'] = product.invoice_number
+		ctx['movement'] = product.movement
+		ctx['formset'] = InventoryItemsFormSet(instance=product)
 		ctx['title'] = 'Detail Entry'
 
 		# Passa os dados de cada formulário individualmente para o contexto
-		if EstoqueItensFormSet(instance=product):
-			for form in EstoqueItensFormSet(instance=product):
-				produto_nome = form.instance.produto.produto if form.instance.produto else ''
+		if InventoryItemsFormSet(instance=product):
+			for form in InventoryItemsFormSet(instance=product):
+				produto_nome = form.instance.product.product if form.instance.product else ''
 
 				ctx['produto_nome'] = produto_nome
 		
 		return ctx
 	
-# detail entry product
-class Detail_stock_exit(ListView):
-	template_name = 'detail_exit_list.html'
-	model = Estoque
-	form_class = EstoqueForm
+
+# Detalhes de saída de produtos
+class StockOutputDetailView(ListView):
+	template_name = 'stock_output_detail.html'
+	model = Inventory
+	form_class = InventoryForm
 
 	def get_context_data(self, **kwargs):
-		ctx = super(Detail_stock_exit, self).get_context_data(**kwargs)
+		ctx = super(StockOutputDetailView, self).get_context_data(**kwargs)
 		id = self.kwargs.get('pk')
-		product = Estoque.objects.filter(id=id).first()
+		product = Inventory.objects.filter(id=id).first()
 
-		EstoqueItensFormSet = inlineformset_factory(Estoque, EstoqueItens, form=EstoqueItensForm, extra=0)
+		EstoqueItensFormSet = inlineformset_factory(Inventory, InventoryItems, form=InventoryItemsForm, extra=0)
 
-		ctx['estoque'] = product
-		ctx['user'] = product.funcionario
-		ctx['nf'] = product.nf
-		ctx['movimentacao'] = product.movimentacao
-		ctx['formset'] = EstoqueItensFormSet(instance=product)
-		ctx['title'] = 'Detail Exit'
+		ctx['product'] = product
+		ctx['user'] = product.employee
+		ctx['invoice_number'] = product.invoice_number
+		ctx['movement'] = product.movement
+		ctx['formset'] = InventoryItemsFormSet(instance=product)
+		ctx['title'] = 'Detail Output'
 
 		# Passa os dados de cada formulário individualmente para o contexto
 		if EstoqueItensFormSet(instance=product):
 			for form in EstoqueItensFormSet(instance=product):
-				produto_nome = form.instance.produto.produto if form.instance.produto else ''
+				produto_nome = form.instance.product.product if form.instance.product else ''
 
 				ctx['produto_nome'] = produto_nome
 		

@@ -68,30 +68,30 @@
 {% endblock %}
 
 {% block content %}
-	<div class="box1">
-		<center>
-			<div class="title">
-				<h2 style="font-weight: bold;">{{ title }}</h2>
-			</div>
-		</center>
-		<form name="form_produtos" id="form_produtos" method="post">
-			{% csrf_token %}  
-			<div>
-				<div class="product_name">
-					<label>Product's name</label>
-					{% bootstrap_field form.produto show_label=false placeholder="Enter the product name" %}
-				</div>
-				<div class="product_price">
-					<label>Price of the product</label>
-					{% bootstrap_field form.preco show_label=false placeholder="$ 0,00" %}
-				</div>
-				<center>
-					<div class="btns">
-						<input type="submit" style="color:white; font-weight: bold" class="btn btn-outline-success text-center fs-5" value="Register">
-						<a href="{% url 'produto:produto_list' %}" style="color:white; font-weight: bold" class="btn btn-outline-danger text-center fs-5">Back</a><br>
-					</div>
-				</center>
-			</div>
-		</form>
-	</div>
+    <div class="box1">
+        <center>
+            <div class="title">
+                <h2 style="font-weight: bold;">{{ title }}</h2>
+            </div>
+        </center>
+        <form name="form_products" id="form_products" method="post">
+            {% csrf_token %}
+            <div>
+                <div class="product_name">
+                    <label>Product's Name</label>
+                    {% bootstrap_field form.product show_label=false placeholder="Enter the product name" %}
+                </div>
+                <div class="product_price">
+                    <label>Price of the Product</label>
+                    {% bootstrap_field form.price show_label=false placeholder="$ 0.00" %}
+                </div>
+                <center>
+                    <div class="btns">
+                        <input type="submit" style="color:white; font-weight: bold" class="btn btn-outline-success text-center fs-5" value="Register">
+                        <a href="{% url 'product:product_list' %}" style="color:white; font-weight: bold" class="btn btn-outline-danger text-center fs-5">Back</a><br>
+                    </div>
+                </center>
+            </div>
+        </form>
+    </div>
 {% endblock content %}

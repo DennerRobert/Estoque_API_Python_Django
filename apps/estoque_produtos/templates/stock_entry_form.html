@@ -59,55 +59,57 @@
 {% endblock %}
 
 {% block content %}
-		<div class="box1">
-			<center>
-				<div class="title">
-					<h2 style="font-weight: bold;">	{{ title }}</h2>
-				</div>
-			</center>
-			<form action="" method="post">
-				{% csrf_token %}  
-				<div>
-					<div class="Invoice">
-						<label>Invoice</label>
-						{% bootstrap_field form.nf show_label=false %}
-					</div>
-				
-					{% if object %}
-						<table class="table">
-							<thead>
-								<th style="width: 200px;">Product</th>
-								<th>Amount</th>       
-								<th>Balance</th>       
-							</thead>
-							<tbody>
-								{% bootstrap_form estoque_itens_formset.management_form %}
-								{% for form in estoque_itens_formset %}
-								{{ form.id }}
-								<tr class="estoque_itens_formset">
-									<td>{% bootstrap_field form.produto show_label=False %}</td>
-									<td>{% bootstrap_field form.quantidade show_label=False %}</td>
-									<td>{% bootstrap_field form.saldo show_label=False %}</td>
-								</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-					{% endif %}
-					<center>
-						<div class="btns">
-							<input type="submit" class="btn btn-outline-primary text-center fs-5" style="color:white; font-weight: bold" value="Register">
-						</div>
-					</center>
-				</div>
-			</form>
-		</div>
+    <div class="box1">
+        <center>
+            <div class="title">
+                <h2 style="font-weight: bold;">{{ title }}</h2>
+            </div>
+        </center>
+        <form action="" method="post">
+            {% csrf_token %}
+            <div>
+                <div class="Invoice">
+                    <label>Invoice</label>
+                    {% bootstrap_field form.invoice_number show_label=false %}
+                </div>
+            
+                {% if object %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: -10px;"></th>
+                                <th style="width: 200px; margin-left: -10px;">Product</th>
+                                <th style="width: 80px;">Amount</th>
+                                <th style="width: 100px;">Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% bootstrap_form estoque_itens_formset.management_form %}
+                            {% for form in estoque_itens_formset %}
+                            <tr class="estoque_itens_formset">
+                                <td>{% bootstrap_field form.id show_label=False %}</td>
+                                <td>{% bootstrap_field form.product show_label=False %}</td>
+                                <td>{% bootstrap_field form.quantity show_label=False %}</td>
+                                <td>{% bootstrap_field form.balance show_label=False %}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+                <center>
+                    <div class="btns">
+                        <input type="submit" class="btn btn-outline-primary text-center fs-5" style="color:white; font-weight: bold" value="Register">
+                    </div>
+                </center>
+            </div>
+        </form>
+    </div>
 {% endblock content %}
-
 {% block scripts %}
 <script>
 	// select2 no campo de pruduto do formset 
     $(document).ready(function() {
-        $('#id_estoqueitens_set-0-produto').select2();
+        $('#id_inventoryitems_set-0-product').select2();
     });
 </script>
 <script>
@@ -131,9 +133,9 @@
 		}
 	
 		// pegar os elementos respectivos
-		const produtoField = document.getElementById('id_estoqueitens_set-0-produto');
-		const quantidadeField = document.getElementById('id_estoqueitens_set-0-quantidade');
-		const saldoField = document.getElementById('id_estoqueitens_set-0-saldo');
+		const produtoField = document.getElementById('id_inventoryitems_set-0-product');
+		const quantidadeField = document.getElementById('id_inventoryitems_set-0-quantity');
+		const saldoField = document.getElementById('id_inventoryitems_set-0-balance');
 	
 		// Event listener // mudar o campo relacionado com troca de produto
 		produtoField.addEventListener('change', function() {

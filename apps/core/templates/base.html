@@ -79,16 +79,16 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a style="color:white; font-weight: bold; margin-left: 10px;" class="nav-link btn btn-outline-primary text-center fs-5" href="{% url 'produto:produto_list' %}">Products</a>
+					<a style="color:white; font-weight: bold; margin-left: 10px;" class="nav-link btn btn-outline-primary text-center fs-5" href="{% url 'product:product_list' %}">Products</a>
 				</li>
 				<li class="nav-item">
-				<a style="color:white; font-weight: bold; margin-left: 10px;" class="nav-link btn btn-outline-primary text-center fs-5" href="{% url 'produto:produto_add' %}">Add products</a>
+				<a style="color:white; font-weight: bold; margin-left: 10px;" class="nav-link btn btn-outline-primary text-center fs-5" href="{% url 'product:product_add' %}">Add products</a>
 				</li>
 				<li class="nav-item dropdown">
 					<a style="color:white; font-weight: bold; margin-left: 10px;" class="nav-link dropdown-toggle btn btn-outline-primary text-center fs-5" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Stock</a>
 					<div class="dropdown-menu" aria-labelledby="dropdown02">
-					<a class="dropdown-item" style="font-weight: bold;" href="{% url 'estoque_produtos:estoque_entrada_list' %}">Stock Entry</a>
-					<a class="dropdown-item" style="font-weight: bold;" href="{% url 'estoque_produtos:estoque_saida_list' %}">Stock Exit</a>
+					<a class="dropdown-item" style="font-weight: bold;" href="{% url 'estoque_produtos:stock_entry_list' %}">Stock Entry</a>
+					<a class="dropdown-item" style="font-weight: bold;" href="{% url 'estoque_produtos:stock_output_list' %}">Stock Exit</a>
 					</div>
 				</li>
 			</ul>

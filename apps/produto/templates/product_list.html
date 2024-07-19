@@ -104,15 +104,14 @@
 				<form class="search" method="GET" action="">
 					<input type="text" name="q" id="id_search" placeholder="Search products..." value="{{ request.GET.q }}">
 					<button type="submit" class="btn btn-outline-info" style="margin-top: -3px;">Search</button>
-					{% if produtos %}
-						<a href="{% url 'produto:produto_print_atual' %}?{% if request.GET.q %}q={{ request.GET.q }}{% endif %}" class="btn btn-outline-info" style="margin-top: -3px; margin-left: 50px;" target="_blank">Print list</a>
-						<a href="{% url 'produto:produto_print_todos' %}" class="btn btn-outline-info" style="margin-top: -3px;" target="_blank">Print complete list</a>
-						<a href="{% url 'produto:produto_excel_todos' %}" class="btn btn-outline-info" style="margin-top: -3px;">Complete list for Excel</a>
+					{% if products %}
+						<a href="{% url 'product:product_print_current' %}?{% if request.GET.q %}q={{ request.GET.q }}{% endif %}" class="btn btn-outline-info" style="margin-top: -3px; margin-left: 50px;" target="_blank">Print list</a>
+						<a href="{% url 'product:product_print_all' %}" class="btn btn-outline-info" style="margin-top: -3px;" target="_blank">Print complete list</a>
+						<a href="{% url 'product:product_excel_all' %}" class="btn btn-outline-info" style="margin-top: -3px;">Complete list for Excel</a>
 					{% endif %}
-
 				</form>
 			</div>
-			{% if produtos %}
+			{% if products %}
 				<table>
 					<thead>
 						<tr>
@@ -129,18 +128,18 @@
 							<tr>
 								<!-- <td>{{ object.id }}</td> -->
 								<!-- <td>{{ forloop.counter }}</td> -->
-								<td>{{ object.produto }}</td>
-								<td>{{ object.preco }}</td>
-								<td class="text-center">{{ object.estoque }}</td>
-								<td class="text-center">$ {{ object.valor_total }}</td>
+								<td>{{ object.product }}</td>
+								<td>{{ object.price }}</td>
+								<td class="text-center">{{ object.inventory }}</td>
+								<td class="text-center">$ {{ object.total_value }}</td>
 								<td style="text-align: center;">
-									<a  class="btn btn-outline-info text-center fs-5"
-										href="{% url 'produto:produto_edit' pk=object.pk%}">
-										<i class="fa fa-edit" aria-hidden="true" style="font-weight: bold;"> Edit product</i>
+									<a class="btn btn-outline-info text-center fs-5"
+										href="{% url 'product:product_edit' pk=object.pk %}">
+										<i class="fa fa-edit" aria-hidden="true" style="font-weight: bold;"> Edit Product</i>
 									</a>
 									<a class="btn btn-outline-info text-center fs-5"
-										href="{% url 'produto:produto_delete' pk=object.pk%}">
-										<i class="fa fa-trash" aria-hidden="true" style="font-weight: bold;"> Remove product</i>
+										href="{% url 'product:product_delete' pk=object.pk %}">
+										<i class="fa fa-trash" aria-hidden="true" style="font-weight: bold;"> Remove Product</i>
 									</a>
 								</td>
 							</tr>
@@ -149,27 +148,27 @@
 				</table>
 				<div class="pagination">
 					<div class="pagination-container" style="display: flex; justify-content: center; align-items: center;">
-						{% if produtos.has_previous %}
+						{% if products.has_previous %}
 							<a href="?page=1" class="btn-outline-info">&laquo; First</a>
-							<a href="?page={{ produtos.previous_page_number }}" class="btn-outline-info" style="margin-left: 5px;">Previous</a>
+							<a href="?page={{ products.previous_page_number }}" class="btn-outline-info" style="margin-left: 5px;">Previous</a>
 						{% else %}
 							<div class="spacer"></div>
 							<div class="spacer"></div>
 						{% endif %}
-				
-						{% if not produtos.has_previous and not produtos.has_next %}
+
+						{% if not products.has_previous and not products.has_next %}
 							<span class="current" style="margin: 0 auto; color: black;">
-								Page {{ produtos.number }} of {{ produtos.paginator.num_pages }}.
+								Page {{ products.number }} of {{ products.paginator.num_pages }}.
 							</span>
 						{% else %}
 							<span class="current" style="margin-left: 5px; color: black;">
-								Page {{ produtos.number }} of {{ produtos.paginator.num_pages }}.
+								Page {{ products.number }} of {{ products.paginator.num_pages }}.
 							</span>
 						{% endif %}
-				
-						{% if produtos.has_next %}
-							<a href="?page={{ produtos.next_page_number }}" class="btn-outline-info" style="margin-left: 5px;">Next</a>
-							<a href="?page={{ produtos.paginator.num_pages }}" class="btn-outline-info" style="margin-left: 5px;">Last &raquo;</a>
+
+						{% if products.has_next %}
+							<a href="?page={{ products.next_page_number }}" class="btn-outline-info" style="margin-left: 5px;">Next</a>
+							<a href="?page={{ products.paginator.num_pages }}" class="btn-outline-info" style="margin-left: 5px;">Last &raquo;</a>
 						{% endif %}
 					</div>
 				</div>
@@ -179,6 +178,5 @@
 		</center>
 	</div>
 {% endblock %}
-
 {% block scripts %}
 {% endblock scripts %}

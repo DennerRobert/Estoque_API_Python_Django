@@ -1,33 +1,33 @@
 from django.db import models
 from django.contrib.auth.models import User
 from apps.core.models import TimeStempedModel
-from apps.produto.models import Produtos
+from apps.produto.models import Products
 
-MOVIMENTACAO = (
-    ('e', 'entrada'),
-    ('s', 'saida'),
+MOVEMENT = (
+	('e', 'entry'),
+	('s', 'exit'),
 )
 
-class Estoque(TimeStempedModel):
-    funcionario = models.ForeignKey(User, on_delete=models.CASCADE)
-    nf = models.PositiveIntegerField('nota fiscal', null=True, blank=True)
-    movimentacao = models.CharField(max_length=1, choices=MOVIMENTACAO)
+class Inventory(TimeStempedModel):
+	employee = models.ForeignKey(User, on_delete=models.CASCADE)
+	invoice_number = models.PositiveIntegerField('invoice number', null=True, blank=True)
+	movement = models.CharField(max_length=1, choices=MOVEMENT)
 
-    class Meta:
-        ordering = ('-created',)
+	class Meta:
+		ordering = ('-created',)
 
-    def __str__(self):
-        return '{} - {}'.format(self.pk, self.created.strftime('%d-%m-%Y'))    
+	def __str__(self):
+		return '{} - {}'.format(self.pk, self.created.strftime('%d-%m-%Y'))    
 
-class EstoqueItens(models.Model):
-    estoque = models.ForeignKey(Estoque, on_delete=models.CASCADE)
-    produto = models.ForeignKey(Produtos, on_delete=models.CASCADE)
-    quantidade = models.PositiveIntegerField()
-    saldo = models.FloatField()
+class InventoryItems(models.Model):
+	inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE)
+	product = models.ForeignKey(Products, on_delete=models.CASCADE)
+	quantity = models.PositiveIntegerField()
+	balance = models.FloatField()
 
 
-    class Meta:
-        ordering = ('pk',)
+	class Meta:
+		ordering = ('pk',)
 
-    def __str__(self):
-        return '{} - {} - {}'.format(self.pk, self.estoque.pk, self.produto)
+	def __str__(self):
+		return '{} - {} - {}'.format(self.pk, self.inventory.pk, self.product)

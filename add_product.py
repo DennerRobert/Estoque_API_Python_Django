@@ -5,7 +5,7 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'estoque.settings')
 django.setup()
 
-from apps.produto.models import Produtos
+from apps.produto.models import Products
 
 nomes_produtos = [
 	'Arroz Integral', 'Óleo de Soja', 'Farinha de Trigo', 'Feijão Carioca', 'Leite Integral',
@@ -19,12 +19,12 @@ def adicionar_produtos():
 		quantidade = random.randint(10, 100)
 		preco = round(random.uniform(10.0, 100.0), 2)
 
-		produto = Produtos.objects.create(
-			produto=nome,
-			preco=preco,
-			estoque=quantidade,
+		produto = Products.objects.create(
+			product=nome,
+			price=preco,
+			inventory=quantidade,
 		)
-		print(f"Produto '{produto.produto}' adicionado com sucesso.")
+		print(f"Produto '{produto.product}' adicionado com sucesso.")
 
 if __name__ == '__main__':
 	adicionar_produtos()

@@ -1,34 +1,34 @@
 from django import forms
-from .models import Estoque, EstoqueItens
+from .models import Inventory, InventoryItems
 from django.forms import formset_factory
 
-class EstoqueForm(forms.ModelForm):
+class InventoryForm(forms.ModelForm):
 	class Meta:
-		model = Estoque
-		fields = ('funcionario', 'nf', 'movimentacao')
-		exclude = ('id', 'movimentacao','funcionario')
+		model = Inventory
+		fields = ('employee', 'invoice_number', 'movement')
+		exclude = ( 'movement','employee')
 		widgets = {
-			'nf': forms.TextInput(attrs={'placeholder':'99999999'}),
-			'funcionario':forms.TextInput(attrs={'required':'False'})
+			'invoice_number': forms.TextInput(attrs={'placeholder':'99999999'}),
+			'employee':forms.TextInput(attrs={'required':'False'})
 		}
 
-class EstoqueItensForm(forms.ModelForm):
+class InventoryItemsForm(forms.ModelForm):
 	class Meta:
-		model: EstoqueItens
-		filds = ('produto', 'quantidade', 'saldo')
-		exclude = ('id', 'estoque',)
+		model: InventoryItems
+		filds = ('product', 'quantity', 'balance')
+		exclude = ('id', 'inventory',)
 		widgets = {
-			'quantidade': forms.TextInput(attrs={'placeholder':'0','required': 'required'}),
-			'saldo': forms.TextInput(attrs={'placeholder':'0,00'}),
+			'quantity': forms.TextInput(attrs={'placeholder':'0','required': 'required'}),
+			'balance': forms.TextInput(attrs={'placeholder':'0,00'}),
 		}
 		def __init__(self, *args, **kwargs):
 			super().__init__(*args, **kwargs)
-			self.fields['produto'].widget.attrs.update({'id': 'id_estoqueitens_set-0-produto'})
+			self.fields['product'].widget.attrs.update({'id': 'id_estoqueitens_set-0-produto'})
 
-EstoqueItensFormSet = forms.inlineformset_factory(
-	Estoque,
-	EstoqueItens,
-	EstoqueItensForm,
+InventoryItemsFormSet = forms.inlineformset_factory(
+	Inventory,
+	InventoryItems,
+	InventoryItemsForm,
 	min_num=1,
 	extra=0,    
 	validate_min=True

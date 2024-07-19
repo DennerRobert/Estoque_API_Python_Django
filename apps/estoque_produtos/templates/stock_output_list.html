@@ -3,7 +3,7 @@
 {% load bootstrap3 %}
 
 {% block title %}
-    {{ title }}
+    Stock Exit
 {% endblock %}
 
 {% block styles %}
@@ -48,11 +48,10 @@
 			color: black;
 			font-weight: bold;
 			width: 23%;
-			overflow-x: auto; /* barra de rolagem horizontal */
-			white-space: nowrap; /* n quebra para a próxima linha */
 			padding: 10px;
 			border-radius: 5px;
 			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			overflow: hidden;
 		}
 
 		.pagination-container {
@@ -81,9 +80,10 @@
 		}
 
 		.pagination .btn-outline-info {
-			color: #007bff; 
+			color: #007bff;
 			border-color: #007bff;
 		}
+
 		.current {
 			margin: 0 auto;
 			text-align: center;
@@ -97,13 +97,13 @@
 {% block content %}
 		<center>
 			<div class="title">
-				<h2>Stock Entry
+				<h2>Stock Exit
 					<span>
-						<a style="margin-bottom: 4px;" class="btn btn-outline-primary text-center fs-5" href="{% url 'estoque_produtos:estoque_entrada_add' %}"> + Add </a>
+						<a style="margin-bottom: 4px;" class="btn btn-outline-primary text-center fs-5" href="{% url 'estoque_produtos:stock_output_add' %}"> + Add</a>
 					</span>
 				</h2>
 			</div>
-			
+
 			{% if object_list %}
 				<table>
 					<thead>
@@ -118,38 +118,38 @@
 					<tbody>
 						{% for object in object_list %}
 							<tr>
-								<td><a href="{% url 'estoque_produtos:estoque_entrada_up' pk=object.pk %}"  class="btn-outline-info">{{ object }}</a></td>
-								<td><a href="{% url 'estoque_produtos:detail_estoque_entrada' pk=object.pk %}"  class="btn-outline-info">View</a></td>
-								<td>{{ object.nf }}</td>
+								<td><a href="{% url 'estoque_produtos:stock_update' pk=object.pk %}" class="btn-outline-info">{{ object }}</a></td>
+                                <td><a href="{% url 'estoque_produtos:detail_stock_exit' pk=object.pk %}" class="btn-outline-info">View</a></td>
+								<td>{{ object.invoice_number }}</td>
 								<td>{{ object.created|date:'d/m/Y' }}</td>
-								<td>{{ object.funcionario.username }}</td>
+								<td>{{ object.employee.username }}</td>
 							</tr>
 						{% endfor %}
 					</tbody>
 				</table>
 				<div class="pagination">
 					<div class="pagination-container" style="display: flex; justify-content: center; align-items: center;">
-						{% if entrada.has_previous %}
+						{% if output.has_previous %}
 							<a href="?page=1" class="btn-outline-info">&laquo; First</a>
-							<a href="?page={{ entrada.previous_page_number }}" class="btn-outline-info" style="margin-left: 5px;">Previous</a>
+							<a href="?page={{ output.previous_page_number }}" class="btn-outline-info" style="margin-left: 5px;">Previous</a>
 						{% else %}
 							<div class="spacer"></div>
 							<div class="spacer"></div>
 						{% endif %}
 				
-						{% if not entrada.has_previous and not entrada.has_next %}
+						{% if not output.has_previous and not output.has_next %}
 							<span class="current" style="margin: 0 auto; color: black;">
-								Page {{ entrada.number }} of {{ entrada.paginator.num_pages }}.
+								Page {{ output.number }} of {{ output.paginator.num_pages }}.
 							</span>
 						{% else %}
 							<span class="current" style="margin-left: 5px; color: black;">
-								Page {{ entrada.number }} of {{ entrada.paginator.num_pages }}.
+								Page {{ output.number }} of {{ output.paginator.num_pages }}.
 							</span>
 						{% endif %}
 				
-						{% if entrada.has_next %}
-							<a href="?page={{ entrada.next_page_number }}" class="btn-outline-info" style="margin-left: 5px;">Next</a>
-							<a href="?page={{ entrada.paginator.num_pages }}" class="btn-outline-info" style="margin-left: 5px;">Last &raquo;</a>
+						{% if output.has_next %}
+							<a href="?page={{ output.next_page_number }}" class="btn-outline-info" style="margin-left: 5px;">Next</a>
+							<a href="?page={{ output.paginator.num_pages }}" class="btn-outline-info" style="margin-left: 5px;">Last &raquo;</a>
 						{% endif %}
 					</div>
 				</div>
