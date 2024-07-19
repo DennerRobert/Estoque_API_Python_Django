@@ -25,7 +25,7 @@ class StockEntryListView(ListView):
     # Páginação do resultado
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx['title'] = 'Stock Entry'
+        ctx['title'] = 'Stock Entries'
 
         entries = Inventory.objects.filter(movement='e')
         paginator = Paginator(entries, self.paginate_by)
@@ -46,7 +46,7 @@ class StockEntryCreateView(CreateView):
     # Pegar os dados do formulário e preencher o formulário
     def get_context_data(self, **kwargs):
         ctx = super(StockEntryCreateView, self).get_context_data(**kwargs)
-        ctx['title'] = 'Stock Entry'
+        ctx['title'] = 'Stock Entries'
         return ctx
 
     #  Salvar os dados do formulário
@@ -144,7 +144,7 @@ class StockOutputListView(ListView):
 	# Páginação do resultado
 	def get_context_data(self, **kwargs):
 		ctx = super(StockOutputListView, self).get_context_data(**kwargs)
-		ctx['title'] = 'Stock Exit'
+		ctx['title'] = 'Stock Exits'
 
 		output = Inventory.objects.filter(movement='s')
 		paginator = Paginator(output, self.paginate_by)
@@ -163,7 +163,7 @@ class StockOutputCreateView(CreateView):
 	# Pegar os dados do formulário e preencher o formulário	
 	def get_context_data(self, **kwargs):
 		ctx = super(StockOutputCreateView, self).get_context_data(**kwargs)
-		ctx['title'] = 'Stock Exit'
+		ctx['title'] = 'Stock Exits'
 		return ctx
 	
 	# Salvar os dados do formulário
