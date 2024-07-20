@@ -79,29 +79,10 @@ WSGI_APPLICATION = 'estoque.wsgi.application'
 
 DATABASES = {
 	'default': decouple.config('DATABASE_URL',
-		default="postgres://robert:robert@localhost:5432/estoque",
+		# para pro pode remover a linha abaixo, DATABASE_URL - vem do .env
+		default="postgres://postgres:robert@db:5432/estoque",
 		cast=dj_database_url.parse)
 }
-
-# }
-# Configuração para desenvolvimento local
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'estoque',
-#         'USER': 'postgres',
-#         'PASSWORD': 'robert',
-#         'HOST': 'db',  # Nome do serviço no Docker Compose
-#         'PORT': '5432',
-#     }
-# }
-
-# Configuração para produção usando variáveis de ambiente
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=config('DATABASE_URL', default='postgres://postgres:robert@db:5432/estoque')
-#     )
-
 
 
 # Password validation
@@ -140,6 +121,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+	os.path.join(BASE_DIR, 'assets'),
+]
 
 LOGIN_REDIRECT_URL = '/produto/'
 LOGOUT_REDIRECT_URL = 'login'

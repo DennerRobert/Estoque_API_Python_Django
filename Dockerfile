@@ -1,18 +1,33 @@
-FROM python:3.8
-ENV PYTHONUNBUFFERED 1
-RUN mkdir /webapps
-WORKDIR /webapps
-ADD . /webapps/
-# Installing OS Dependencies
-RUN apt-get update && apt-get upgrade -y && apt-get install -y \
-libsqlite3-dev
-# RUN pip install -U pip setuptools
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
 
-COPY wait-for-it.sh /webapps/
-RUN chmod +x /webapps/wait-for-it.sh
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-COPY requirements.txt /webapps/
-RUN pip install --upgrade pip
-RUN pip install -r /webapps/requirements.txt
-# Django service
+# Set the working directory in the container
+WORKDIR /app
+
+# Install OS dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    postgresql-client \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+
+# Copy the requirements file and install Python dependencies
+COPY requirements.txt /app/
+RUN pip install --upgrade pip && \
+    pip install -r /app/requirements.txt
+
+
+# Copy the rest of the application code to the container
+COPY . /app/
+
+RUN chmod +x /app/entrypoint.sh
+
+# Expose the port the app runs on
 EXPOSE 8000
+
+CMD ["/app/entrypoint.sh"]

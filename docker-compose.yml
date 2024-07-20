@@ -1,29 +1,26 @@
-version: '3'
+version: '3.8'
 
 services:
   db:
-    image: postgres:12
+    image: postgres:13
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=robert
-      - POSTGRES_DB=estoque
-
+    env_file:
+      - .env
   web:
     build: .
-    command: bash -c "./wait-for-it.sh db 5432 python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-    volumes:
-      - .:/webapps
-    ports:
-      - "8000:8000"
+    image: dennerrobert/stock:1.0
+    command: ["/app/entrypoint.sh"]
     depends_on:
       - db
-    environment:
-      - DEBUG=1
-      - DATABASE_URL=postgres://postgres:robert@db:5432/estoque
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
 
 volumes:
   postgres_data:
