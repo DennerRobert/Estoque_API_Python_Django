@@ -6,6 +6,7 @@ django-bootstrap3==21.1
 django-filter==21.1
 djangorestframework==3.14.0
 et-xmlfile==1.1.0
+fontawesomefree==6.6.0
 gunicorn==22.0.0
 importlib-metadata==4.8.3
 Markdown==3.3.7

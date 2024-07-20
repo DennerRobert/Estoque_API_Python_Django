@@ -100,14 +100,26 @@
 	<div>
 		<center>
 			<div class="title">
-				<h2>Product list</h2>
+				<h2>PRODUCT LIST</h2>
 				<form class="search" method="GET" action="">
 					<input type="text" name="q" id="id_search" placeholder="Search products..." value="{{ request.GET.q }}">
-					<button type="submit" class="btn btn-outline-info" style="margin-top: -3px;">Search</button>
+					<button type="submit" class="btn btn-outline-info" style="margin-top: -3px;">
+						<i class="fa-solid fa-magnifying-glass"></i>
+						Search
+					</button>
 					{% if products %}
-						<a href="{% url 'product:product_print_current' %}?{% if request.GET.q %}q={{ request.GET.q }}{% endif %}" class="btn btn-outline-info" style="margin-top: -3px; margin-left: 50px;" target="_blank">Print list</a>
-						<a href="{% url 'product:product_print_all' %}" class="btn btn-outline-info" style="margin-top: -3px;" target="_blank">Print complete list</a>
-						<a href="{% url 'product:product_excel_all' %}" class="btn btn-outline-info" style="margin-top: -3px;">Complete list for Excel</a>
+						<a href="{% url 'product:product_print_current' %}?{% if request.GET.q %}q={{ request.GET.q }}{% endif %}" class="btn btn-outline-info" style="margin-top: -3px; margin-left: 50px;" target="_blank">
+							<i class="fa-solid fa-print"></i>
+							Print list
+						</a>
+						<a href="{% url 'product:product_print_all' %}" class="btn btn-outline-info" style="margin-top: -3px;" target="_blank">
+							<i class="fa-solid fa-print"></i>
+							Print complete list
+						</a>
+						<a href="{% url 'product:product_excel_all' %}" class="btn btn-outline-info" style="margin-top: -3px;">
+							<i class="fa-solid fa-file-excel"></i>
+							Complete list for Excel
+						</a>
 					{% endif %}
 				</form>
 			</div>
@@ -116,7 +128,7 @@
 					<thead>
 						<tr>
 							<!-- <th>#</th> -->
-							<th>Product</th>
+							<th style="width: 300px;">Product</th>
 							<th>Price</th>
 							<th class="text-center">Stock</th>
 							<th style="text-align: center;">Total Balance</th>
@@ -135,11 +147,11 @@
 								<td style="text-align: center;">
 									<a class="btn btn-outline-info text-center fs-5"
 										href="{% url 'product:product_edit' pk=object.pk %}">
-										<i class="fa fa-edit" aria-hidden="true" style="font-weight: bold;"> Edit Product</i>
+										<i class="fa fa-edit" aria-hidden="true" style="font-weight: bold; font-size: 13px;"> Edit Product</i>
 									</a>
 									<a class="btn btn-outline-info text-center fs-5"
 										href="{% url 'product:product_delete' pk=object.pk %}">
-										<i class="fa fa-trash" aria-hidden="true" style="font-weight: bold;"> Remove Product</i>
+										<i class="fa fa-trash" aria-hidden="true" style="font-weight: bold; font-size: 13px;"> Remove Product</i>
 									</a>
 								</td>
 							</tr>
