@@ -7,24 +7,32 @@ django.setup()
 
 from apps.produto.models import Products
 
-nomes_produtos = [
-	'Arroz Integral', 'Óleo de Soja', 'Farinha de Trigo', 'Feijão Carioca', 'Leite Integral',
-	'Macarrão Espaguete', 'Sabão em Pó', 'Detergente Líquido', 'Shampoo Anticaspa', 'Condicionador Hidratante',
-	'Café Torrado e Moído', 'Açúcar Cristal', 'Sal Refinado', 'Suco de Laranja Natural', 'Biscoito Recheado',
-	'Creme Dental com Flúor', 'Desodorante Roll-On', 'Papel Higiênico Folha Dupla', 'Chocolate ao Leite', 'Refrigerante de Guaraná'
-]
+products = ["Laptop", "Smartphone", "Tablet", "Printer", "Monitor", "Keyboard", "Mouse", 
+			"Headphones", "External Hard Drive", "USB Flash Drive", "Webcam", "Router", 
+			"Network Switch", "Desk Chair", "Office Desk", "Desk Lamp", "Printer Paper", 
+			"Ink Cartridge", "Charging Cable", "Power Bank", "Speakers", "Graphics Card", 
+			"Motherboard", "Processor", "RAM", "Solid State Drive (SSD)", "Hard Disk Drive (HDD)", 
+			"Surge Protector", "Docking Station", "Projector"]
 
-def adicionar_produtos():
-	for nome in nomes_produtos:
-		quantidade = random.randint(10, 100)
-		preco = round(random.uniform(10.0, 100.0), 2)
 
-		produto = Products.objects.create(
-			product=nome,
-			price=preco,
-			inventory=quantidade,
+def add_products():
+	"""
+		Iterates through a list of products, 
+		generates random quantity and price 
+		values for each product, and creates
+		a new Products object for each product
+		with the generated values.
+	"""
+	for name in products:
+		quantity = random.randint(10, 100)
+		price = round(random.uniform(10.0, 100.0), 2)
+
+		product = Products.objects.create(
+			product=name,
+			price=price,
+			inventory=quantity,
 		)
-		print(f"Produto '{produto.product}' adicionado com sucesso.")
+		print(f"Product '{product.product}' added successfully.")
 
 if __name__ == '__main__':
-	adicionar_produtos()
+	add_products()
