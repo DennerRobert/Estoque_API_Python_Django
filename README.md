@@ -1,32 +1,38 @@
--Introdução
+Introdução
     
      ->Descrição
-    Este projeto é um sistema de gerenciamento de inventário desenvolvido com Python e framework Django. 
-    Ele permite aos usuários gerenciar produtos, controlar o estoque e gerar relatórios. A aplicação 
-    é projetada para ser facilmente extensível e configurável, utilizando tecnologias como Docker
-    para facilitar o desenvolvimento e a implantação.
+     Este projeto é um sistema de gerenciamento de inventário desenvolvido com Python e framework Django. 
+     Ele permite aos usuários gerenciar produtos, controlar o estoque e gerar relatórios. A aplicação 
+     é projetada para ser facilmente extensível e configurável, utilizando tecnologias como Docker
+     para facilitar o desenvolvimento e a implantação.
 
      -> Objetivos do projeto
      O objetivo deste projeto é finalizar e aprimorar o sistema de gerenciamento
-     de inventário, incorporando novos conhecimentos e tecnologias adquiridos. Isso inclui a 
-     implementação de funcionalidades adicionais, a otimização do desempenho e a adoção de melhores práticas
-     de desenvolvimento para garantir que o sistema seja eficiente, confiável e fácil de usar.
-    
--Tecnologias Utilizadas
+     de inventário iniciado no período inicial da faculdade, incorporando novos conhecimentos e tecnologias
+     adquiridos posteriormente. Isso inclui a implementação de funcionalidades adicionais, a otimização do desempenho e a 
+     adoção de melhores práticas de desenvolvimento para garantir que o sistema seja eficiente, confiável e fácil de usar.
+
+Próximas Etapas
+
+     -> Documentação
+     -> Otimização de código
+     -> Implementação de testes TDD (Test Driven Development)
+
+Tecnologias Utilizadas
 
      -> Python - Linguagem de programação principal.
      -> Django - Framework web.
      -> PostgreSQL - Banco de dados.
      -> Docker e Docker Compose - Contêineres para ambiente de desenvolvimento.
 
--Pré-requisitos
+Pré-requisitos
 
      -> Linux versão 22.04 (versão utilizada no desenvolvimento)
      -> Python versão 3.10.12 (versão utilizada no desenvolvimento)
      -> Pip (gerenciador de pacotes do Python)
      -> Docker e Docker Compose
 
--Instalação (Linux)
+Instalação (Linux)
      
   -> Clonando o Repositório
     
@@ -42,7 +48,7 @@
    
     pip install -r requirements.txt
 
--Configuração
+Configuração
     -> Variáveis de Ambiente
     Crie um arquivo .env na raiz do projeto com as seguintes configurações:
     
@@ -55,17 +61,17 @@
     DEBUG=False
     DATABASE_URL=postgres://seu_usuario:sua_senha@localhost:5432/seu_banco
 
--Scripts (Inserção e Exclusão de dados)
+Scripts (Inserção e Exclusão de dados)
   
   -> Adicionar dados
       
-      python3 add_product.py
+    python3 add_product.py
   
   -> Remover dados
     
-      python3 clear_data.py
+    python3 clear_data.py
   
--Executando o Projeto (Linux)
+Executando o Projeto (Linux)
 
   -> Configurando o Banco de Dados
 
@@ -89,14 +95,14 @@
     O projeto estará acessível em http://localhost:8000/. Abra seu navegador e acesse essa URL para ver a aplicação em funcionamento.
 
 
--Instalação (Docker)
+Instalação (Docker)
      
   -> Clonando o Repositório
     
     git clone git@github.com:DennerRobert/Estoque_API_Python_Django.git
     cd Estoque_API_Python_Django
 
--Configuração (Docker)
+Configuração (Docker)
     -> Variáveis de Ambiente
     Crie um arquivo .env na raiz do projeto com as seguintes configurações:
     
@@ -109,7 +115,7 @@
     DEBUG=False
     DATABASE_URL=postgres://seu_usuario:sua_senha@db:5432/seu_banco
   
--Executando o Projeto (Docker)
+Executando o Projeto (Docker)
 
   -> Construindo e Inicializando os Contêineres
 
@@ -122,7 +128,7 @@
     User: Admin
     Pass: Adminpass
 
--Licença
+Licença
 
     -> Este projeto está licenciado sob a Licença GNU GENERAL PUBLIC LICENSE - veja o arquivo LICENSE para mais detalhes.
 
