@@ -14,7 +14,7 @@ Introdução
 
 Próximas Etapas
 
-     -> Documentação
+     -> Documentação do código
      -> Otimização de código
      -> Implementação de testes TDD (Test Driven Development)
 
