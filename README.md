@@ -92,7 +92,7 @@ Executando o Projeto (Linux)
 
   -> Acessando o Projeto
 
-    O projeto estará acessível em http://localhost:8000/. Abra seu navegador e acesse essa URL para ver a aplicação em funcionamento.
+    O projeto estará acessível em http://localhost:8000/ .Abra seu navegador e acesse essa URL para ver a aplicação em funcionamento.
 
 
 Instalação (Docker)
@@ -123,7 +123,7 @@ Executando o Projeto (Docker)
 
   -> Acessando o Projeto (Docker)
 
-    O projeto estará acessível em http://localhost:8000/. Abra seu navegador e acesse essa URL para ver a aplicação em funcionamento.
+    O projeto estará acessível em http://localhost:8000/ .Abra seu navegador e acesse essa URL para ver a aplicação em funcionamento.
     Usuário é criado automaticamente!
     User: Admin
     Pass: Adminpass
