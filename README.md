@@ -61,6 +61,17 @@ Configuração
     DEBUG=False
     DATABASE_URL=postgres://seu_usuario:sua_senha@localhost:5432/seu_banco
 
+Banco de dados
+    sudo apt update
+    sudo apt install postgresql postgresql-contrib
+    sudo -u postgres psql
+      CREATE DATABASE seu_banco;
+      GRANT ALL PRIVILEGES ON DATABASE seu_banco TO postgres;
+      ALTER USER postgres WITH PASSWORD 'sua_senha';
+
+Usuário inicial
+    python manage.py createsuperuser
+
 Scripts (Inserção e Exclusão de dados)
   
   -> Adicionar dados

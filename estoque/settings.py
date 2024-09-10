@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'estoque.wsgi.application'
 DATABASES = {
 	'default': decouple.config('DATABASE_URL',
 		# para pro pode remover a linha abaixo, DATABASE_URL - vem do .env
-		default="postgres://postgres:robert@db:5432/estoque",
+		default="postgres://postgres:robert@localhost:5432/estoque",
 		cast=dj_database_url.parse)
 }
 
